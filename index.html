@@ -15,7 +15,6 @@
         .brand-gradient {
             background: linear-gradient(135deg, #ef4444 0%, #8b5cf6 50%, #3b82f6 100%);
         }
-        /* Animaciones para los elementos flotantes */
         @keyframes floatWiggle {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
@@ -23,26 +22,19 @@
         .animate-float-custom {
             animation: floatWiggle 3s ease-in-out infinite;
         }
+        /* Transición suave para revelar el catálogo oculto */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-24 sm:pb-0">
-
-    <!-- NUEVO: WIDGET FLOTANTE DE VIDEO INFORMATIVO (IZQUIERDA ARRIBA DEL CÓDIGO) -->
-    <div onclick="openInfoVideoModal()" class="fixed bottom-36 left-6 bg-gradient-to-r from-red-500 to-purple-600 p-0.5 rounded-xl shadow-2xl z-40 cursor-pointer animate-pulse hover:scale-105 transform transition-all max-w-[280px]">
-        <div class="bg-slate-900 p-3 rounded-xl flex items-center gap-3 border border-slate-800">
-            <div class="w-10 h-10 bg-red-500/20 text-red-500 rounded-lg flex items-center justify-center text-sm shrink-0 relative border border-red-500/30">
-                <i class="fas fa-play text-xs ml-0.5"></i>
-                <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-                </span>
-            </div>
-            <div>
-                <p class="text-[10px] font-bold uppercase tracking-wider text-purple-400">¿Eres nuevo?</p>
-                <p class="text-xs font-bold text-white leading-tight">🍿 ¡Mira este video antes de empezar!</p>
-            </div>
-        </div>
-    </div>
 
     <!-- MENSAJE FLOTANTE EN PARTE INFERIOR IZQUIERDA (CÓDIGO DE REFERIDO) -->
     <div class="fixed bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-yellow-500/40 p-3 rounded-xl shadow-2xl z-40 flex items-center gap-3 animate-float-custom max-w-[280px] sm:max-w-xs">
@@ -63,34 +55,6 @@
        title="Chatea con nosotros">
         <i class="fab fa-whatsapp"></i>
     </a>
-
-    <!-- NUEVO: MODAL DEL VIDEO INFORMATIVO DE BIENVENIDA -->
-    <div id="infoVideoModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl max-w-2xl w-full mx-4 text-center transform scale-95 transition-transform duration-300 relative shadow-2xl">
-            <button onclick="closeInfoVideoModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl transition-colors">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <h3 class="text-xl font-black text-white mb-1">🍿 ¡Ingresa al Mundo Streaming!</h3>
-            <p class="text-xs sm:text-sm text-slate-400 mb-4">Te explico detalladamente cómo funciona nuestro sistema de ahorro digital.</p>
-            
-            <!-- Video Reproductor -->
-            <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-5 border border-slate-800">
-                <!-- IMPORTANTE: Reemplazar ID_DE_VIDEO_BIENVENIDA por el ID de tu video de YouTube -->
-                <iframe id="mainInfoIframe" class="absolute top-0 left-0 w-full h-full" src="" title="Video de Bienvenida" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
-            
-            <!-- Botones de Acción directos -->
-            <div class="flex flex-col sm:flex-row gap-3 justify-center">
-                <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Vi%20tu%20video%20informativo%20de%20bienvenida%20y%20quiero%20que%20me%20ayudes%20a%20activar%20mis%20pantallas." target="_blank" class="inline-flex items-center justify-center px-6 py-3.5 font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 rounded-xl transition-all text-sm shadow-lg shadow-emerald-500/10">
-                    <i class="fab fa-whatsapp mr-2 text-base"></i> ¡Me interesa! Escríbeme al WhatsApp
-                </a>
-                <button onclick="closeInfoVideoModal()" class="px-6 py-3.5 font-bold text-slate-400 bg-slate-800 hover:bg-slate-700 rounded-xl transition-all text-sm">
-                    Ver catálogo primero
-                </button>
-            </div>
-        </div>
-    </div>
 
     <!-- VENTANA EMERGENTE ANIMADA (MODAL DE REFERIDO PARA REGISTRO MANUAL) -->
     <div id="referralModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
@@ -134,220 +98,234 @@
                 </span>
             </div>
             <div class="flex items-center space-x-3">
-                <span class="hidden sm:inline text-xs text-slate-400">Asesoría Personalizada por WhatsApp</span>
-                <a href="https://wa.me/51995500589?text=Hola!%20Deseo%20registrarme%20y%20saber%20c%C3%B3mo%20funciona%20el%20sistema." target="_blank" class="text-xs bg-emerald-950 text-emerald-400 border border-emerald-700/50 px-3 py-1.5 rounded-full font-bold hover:bg-emerald-900/60 transition-all">
-                    <i class="fab fa-whatsapp mr-1"></i> Contactar Asesor
-                </a>
+                <span class="text-xs text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full font-semibold">Código: HLHOF77964</span>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION: Inicio Impactante -->
-    <header class="max-w-5xl mx-auto text-center px-4 pt-16 pb-10 relative">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        
-        <span class="inline-flex items-center gap-1.5 text-xs font-bold tracking-wider text-yellow-400 uppercase bg-yellow-950/40 border border-yellow-700/40 px-4 py-2 rounded-full mb-6">
-            <i class="fas fa-fire animate-bounce"></i> ¡Ahórrate más del 60% en Cuentas Originales!
-        </span>
+    <!-- HERO SECTION CENTRAL CON EL VIDEO OBLIGATORIO -->
+    <header class="max-w-4xl mx-auto text-center px-4 pt-12 pb-16 relative">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-purple-600/5 rounded-full blur-3xl pointer-events-none"></div>
         
         <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
-            Tus Plataformas de Entretenimiento <br>
+            Cuentas Premium de Streaming <br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-blue-500">
                 A Precios de Mayorista
             </span>
         </h1>
         
-        <p class="mt-6 text-base sm:text-xl text-slate-400 max-w-3xl mx-auto font-medium">
-            Olvídate de pagar tarifas completas y costosas. Solicita tus pantallas directamente por WhatsApp o regístrate usando nuestro código exclusivo para obtener activación garantizada.
+        <p class="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-medium">
+            Bienvenido al club de ahorro digital más estable del Perú. Sigue las instrucciones del video central para desbloquear las ofertas de hoy.
         </p>
 
-        <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <button onclick="openModal(event)" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white brand-gradient rounded-xl shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all glow-effect">
-                <i class="fas fa-rocket mr-2"></i> Registrarme de Forma Oficial
-            </button>
-            <button onclick="openInfoVideoModal()" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-300 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800/80 transition-all">
-                <i class="fas fa-play text-xs mr-2 text-red-500"></i> Ver Video Explicativo
-            </button>
+        <!-- EL VIDEO CENTRADO Y OBLIGATORIO -->
+        <div class="mt-10 max-w-2xl mx-auto bg-slate-900 border border-red-500/40 p-3 sm:p-4 rounded-3xl shadow-2xl shadow-red-950/20 relative">
+            
+            <!-- Etiqueta de advertencia llamativa -->
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-amber-500 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 whitespace-nowrap">
+                <i class="fas fa-lock-open animate-pulse"></i> PASO 1 OBLIGATORIO: MIRA ESTE VIDEO
+            </div>
+
+            <!-- Contenedor del reproductor -->
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
+                <!-- IMPORTANTE: Reemplazar ID_DE_TU_VIDEO_CENTRAL por el ID real de YouTube -->
+                <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_CENTRAL" title="Video Informativo Obligatorio" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <!-- Botón de desbloqueo justo debajo del video -->
+            <div class="mt-4">
+                <button onclick="unlockCatalog()" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm sm:text-base font-black text-slate-950 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-xl hover:brightness-105 transform active:scale-95 transition-all uppercase tracking-wider animate-pulse">
+                    <i class="fas fa-eye mr-2"></i> He visto el video, ver catálogo y precios
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- SECCIÓN DE VIDEOS TUTORIALES (3 EN HORIZONTAL) -->
-    <section class="max-w-6xl mx-auto px-4 py-10 border-t border-slate-950">
-        <div class="text-center mb-8">
-            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-200">Guía Paso a Paso en Video</h2>
-            <p class="text-xs sm:text-sm text-slate-400 mt-1">Mira lo fácil y rápido que es comprar y activar tus pantallas</p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Video 1 -->
-            <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
-                <div>
-                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
-                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_1" title="Paso 1: Registro" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Video 01</span>
-                    <h3 class="text-base font-bold text-white mt-1">¿Cómo crear tu cuenta?</h3>
-                    <p class="text-xs text-slate-400 mt-1">Aprende a registrarte correctamente en la plataforma usando nuestro enlace promocional oficial.</p>
-                </div>
+    <!-- SECCIÓN OCULTA POR DEFECTO (SE ACTIVA AL DAR CLIC EN EL BOTÓN) -->
+    <div id="hiddenFunnelContent" class="hidden fade-in-section">
+        
+        <!-- SECCIÓN DE VIDEOS TUTORIALES SECUNDARIOS (3 EN HORIZONTAL) -->
+        <section class="max-w-6xl mx-auto px-4 py-10 border-t border-slate-900 bg-slate-900/10">
+            <div class="text-center mb-8">
+                <h2 class="text-xl sm:text-2xl font-extrabold text-slate-200">Guías Detalladas de Soporte</h2>
+                <p class="text-xs sm:text-sm text-slate-400 mt-1">Pasos complementarios para el manejo de tu nueva plataforma</p>
             </div>
 
-            <!-- Video 2 -->
-            <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
-                <div>
-                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
-                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_2" title="Paso 2: Compra" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    </div>
-                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Video 02</span>
-                    <h3 class="text-base font-bold text-white mt-1">¿Cómo comprar tu pantalla?</h3>
-                    <p class="text-xs text-slate-400 mt-1">Te mostramos el proceso exacto para elegir tu streaming favorito y solicitar la activación de inmediato.</p>
-                </div>
-            </div>
-
-            <!-- Video 3 -->
-            <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
-                <div>
-                    <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
-                        <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_3" title="Paso 3: Soporte" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                    <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Informativo</span>
-                    <h3 class="text-base font-bold text-white mt-1">Garantías y Soporte</h3>
-                    <p class="text-xs text-slate-400 mt-1">Conoce cómo funciona nuestro sistema ante caídas o renovaciones mensuales automáticas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN: CATÁLOGO LLAMATIVO (BOTONES DIRECTO A TU WHATSAPP) -->
-    <section id="catalogo" class="max-w-6xl mx-auto px-4 py-16">
-        <div class="text-center mb-12">
-            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Elige tu Aplicación Favorita</h2>
-            <p class="text-slate-400 text-sm sm:text-base mt-2">Haz clic en "Pedir" y escríbeme directamente para activarla en minutos.</p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- App 1: Netflix -->
-            <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-red-600/50 transition-all duration-300 relative group overflow-hidden">
-                <div class="absolute top-0 left-0 w-1.5 h-full bg-red-600"></div>
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-red-950/50 text-red-500 rounded-xl flex items-center justify-center text-2xl border border-red-900/30">
-                        <i class="fab fa-netflix"></i>
-                    </div>
-                    <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-red-950 text-red-400 border border-red-900/50 rounded-md">Ultra HD 4K</span>
-                </div>
-                <h3 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">Netflix Premium</h3>
-                <p class="text-xs text-slate-400 mt-1">Películas y series ilimitadas en la mejor resolución del mercado.</p>
-                <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Video 1 -->
+                <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
                     <div>
-                        <span class="text-xs text-slate-500 line-through block">S/. 44.90</span>
-                        <span class="text-lg font-black text-emerald-400">S/. 15.00</span>
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_1" title="Paso 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Video 01</span>
+                        <h3 class="text-base font-bold text-white mt-1">¿Cómo crear tu cuenta?</h3>
+                        <p class="text-xs text-slate-400 mt-1">Registro paso a paso utilizando la plataforma promocional.</p>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Netflix%20Premium%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
-                        <i class="fab fa-whatsapp text-sm"></i> Pedir
-                    </a>
                 </div>
-            </div>
 
-            <!-- App 2: Disney+ -->
-            <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-blue-500/50 transition-all duration-300 relative group overflow-hidden">
-                <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-blue-950/50 text-blue-400 rounded-xl flex items-center justify-center text-2xl border border-blue-900/30">
-                        <i class="fas fa-circle-play"></i>
-                    </div>
-                    <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-blue-950 text-blue-400 border border-blue-900/50 rounded-md">Estándar / Premium</span>
-                </div>
-                <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Disney+</h3>
-                <p class="text-xs text-slate-400 mt-1">Todo ESPN, deportes en vivo, Star, Marvel y películas.</p>
-                <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                <!-- Video 2 -->
+                <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
                     <div>
-                        <span class="text-xs text-slate-500 line-through block">S/. 38.90</span>
-                        <span class="text-lg font-black text-emerald-400">S/. 13.00</span>
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_2" title="Paso 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Video 02</span>
+                        <h3 class="text-base font-bold text-white mt-1">¿Cómo comprar la pantalla?</h3>
+                        <p class="text-xs text-slate-400 mt-1">Proceso exacto para abonar tu tarifa y activar el servicio.</p>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Disney%2B%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
-                        <i class="fab fa-whatsapp text-sm"></i> Pedir
-                    </a>
                 </div>
-            </div>
 
-            <!-- App 3: Max -->
-            <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 relative group overflow-hidden">
-                <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-2xl border border-indigo-900/30">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-indigo-950 text-indigo-400 border border-indigo-900/50 rounded-md">HBO Max</span>
-                </div>
-                <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">Max (HBO)</h3>
-                <p class="text-xs text-slate-400 mt-1">Series de éxito mundial, películas de Warner y Discovery.</p>
-                <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                <!-- Video 3 -->
+                <div class="bg-slate-900/50 rounded-2xl p-4 border border-slate-800/80 hover:border-purple-900/50 transition-all flex flex-col justify-between">
                     <div>
-                        <span class="text-xs text-slate-500 line-through block">S/. 39.90</span>
-                        <span class="text-lg font-black text-emerald-400">S/. 14.00</span>
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-slate-950 mb-3 border border-slate-800">
+                            <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/ID_DE_TU_VIDEO_3" title="Paso 3" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Informativo</span>
+                        <h3 class="text-base font-bold text-white mt-1">Garantías y Soporte</h3>
+                        <p class="text-xs text-slate-400 mt-1">Cómo se manejan los reemplazos automáticos y renovaciones.</p>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Max%20(HBO)%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
-                        <i class="fab fa-whatsapp text-sm"></i> Pedir
-                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN: CATÁLOGO DE APLICACIONES (BOTONES DIRECTO A TU WHATSAPP) -->
+        <section id="catalogo" class="max-w-6xl mx-auto px-4 py-16 scroll-mt-20">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/50 text-emerald-400 text-xs font-bold border border-emerald-800 mb-3">
+                    <i class="fas fa-unlock"></i> CATÁLOGO DESBLOQUEADO EXITOSAMENTE
+                </div>
+                <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Elige tu Aplicación Favorita</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2">Haz clic en "Pedir" y escríbeme directamente para procesar la entrega de accesos.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- App 1: Netflix -->
+                <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-red-600/50 transition-all duration-300 relative group overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-red-600"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-red-950/50 text-red-500 rounded-xl flex items-center justify-center text-2xl border border-red-900/30">
+                            <i class="fab fa-netflix"></i>
+                        </div>
+                        <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-red-950 text-red-400 border border-red-900/50 rounded-md">Ultra HD 4K</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors">Netflix Premium</h3>
+                    <p class="text-xs text-slate-400 mt-1">Películas y series ilimitadas en la mejor resolución del mercado.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 line-through block">S/. 44.90</span>
+                            <span class="text-lg font-black text-emerald-400">S/. 15.00</span>
+                        </div>
+                        <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Netflix%20Premium%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                            <i class="fab fa-whatsapp text-sm"></i> Pedir
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 2: Disney+ -->
+                <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-blue-500/50 transition-all duration-300 relative group overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-blue-950/50 text-blue-400 rounded-xl flex items-center justify-center text-2xl border border-blue-900/30">
+                            <i class="fas fa-circle-play"></i>
+                        </div>
+                        <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-blue-950 text-blue-400 border border-blue-900/50 rounded-md">Estándar / Premium</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-blue-400 transition-colors">Disney+</h3>
+                    <p class="text-xs text-slate-400 mt-1">Todo ESPN, deportes en vivo, Star, Marvel y películas.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 line-through block">S/. 38.90</span>
+                            <span class="text-lg font-black text-emerald-400">S/. 13.00</span>
+                        </div>
+                        <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Disney%2B%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                            <i class="fab fa-whatsapp text-sm"></i> Pedir
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 3: Max -->
+                <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 relative group overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-2xl border border-indigo-900/30">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-indigo-950 text-indigo-400 border border-indigo-900/50 rounded-md">HBO Max</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-indigo-400 transition-colors">Max (HBO)</h3>
+                    <p class="text-xs text-slate-400 mt-1">Series de éxito mundial, películas de Warner y Discovery.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 line-through block">S/. 39.90</span>
+                            <span class="text-lg font-black text-emerald-400">S/. 14.00</span>
+                        </div>
+                        <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Max%20(HBO)%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                            <i class="fab fa-whatsapp text-sm"></i> Pedir
+                        </a>
+                    </div>
+                </div>
+
+                <!-- App 4: Prime Video -->
+                <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-cyan-400/50 transition-all duration-300 relative group overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-400"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-12 h-12 bg-cyan-950/50 text-cyan-400 rounded-xl flex items-center justify-center text-xl border border-cyan-900/30">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-cyan-950 text-cyan-400 border border-cyan-900/50 rounded-md">Amazon Prime</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">Prime Video</h3>
+                    <p class="text-xs text-slate-400 mt-1">Producciones originales exclusivas y el catálogo de Amazon.</p>
+                    <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                        <div>
+                            <span class="text-xs text-slate-500 line-through block">S/. 19.90</span>
+                            <span class="text-lg font-black text-emerald-400">S/. 7.00</span>
+                        </div>
+                        <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Prime%20Video%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                            <i class="fab fa-whatsapp text-sm"></i> Pedir
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <!-- App 4: Prime Video -->
-            <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-cyan-400/50 transition-all duration-300 relative group overflow-hidden">
-                <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-400"></div>
-                <div class="flex justify-between items-start mb-4">
-                    <div class="w-12 h-12 bg-cyan-950/50 text-cyan-400 rounded-xl flex items-center justify-center text-xl border border-cyan-900/30">
-                        <i class="fas fa-video"></i>
-                    </div>
-                    <span class="text-[10px] uppercase font-extrabold px-2 py-1 bg-cyan-950 text-cyan-400 border border-cyan-900/50 rounded-md">Amazon Prime</span>
-                </div>
-                <h3 class="text-lg font-bold text-white group-hover:text-cyan-400 transition-colors">Prime Video</h3>
-                <p class="text-xs text-slate-400 mt-1">Producciones originales exclusivas y el catálogo de Amazon.</p>
-                <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
-                    <div>
-                        <span class="text-xs text-slate-500 line-through block">S/. 19.90</span>
-                        <span class="text-lg font-black text-emerald-400">S/. 7.00</span>
-                    </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Prime%20Video%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
-                        <i class="fab fa-whatsapp text-sm"></i> Pedir
-                    </a>
+            <!-- BOTÓN GRANDE PARA REGISTRO MANUAL QUE ACTIVA EL POPUP DE ADVERTENCIA -->
+            <div class="mt-16 text-center max-w-xl mx-auto px-4">
+                <div class="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                    <h4 class="text-base font-bold text-white mb-2">¿Prefieres registrarte tú mismo en la plataforma?</h4>
+                    <p class="text-xs text-slate-400 mb-4">Crea tu cuenta oficial de manera directa utilizando el enlace de distribuidor.</p>
+                    <button onclick="openModal(event)" class="w-full inline-flex items-center justify-center px-6 py-3.5 text-xs font-bold text-white brand-gradient rounded-xl shadow-lg hover:opacity-90 transition-all uppercase tracking-wider">
+                        <i class="fas fa-user-plus mr-2"></i> Crear Cuenta por mi Cuenta
+                    </button>
                 </div>
             </div>
+        </section>
 
-        </div>
-    </section>
+        <!-- FOOTER FINAL -->
+        <footer class="border-t border-slate-900 text-center py-8 text-xs text-slate-600">
+            <p>© 2026 StreamZone - Club Informativo de Ahorro Digital.</p>
+        </footer>
+    </div>
 
-    <!-- FOOTER FINAL -->
-    <footer class="border-t border-slate-900 text-center py-8 text-xs text-slate-500">
-        <p>© 2026 StreamZone - Club Informativo de Ahorro Digital.</p>
-    </footer>
-
-    <!-- LÓGICA JAVASCRIPT -->
+    <!-- LÓGICA JAVASCRIPT: Manejo de los desbloqueos y la interactividad -->
     <script>
-        // NUEVAS FUNCIONES: Control del video informativo principal flotante
-        function openInfoVideoModal() {
-            const modal = document.getElementById('infoVideoModal');
-            // IMPORTANTE: Reemplaza 'ID_DE_VIDEO_BIENVENIDA' por la ID real de tu video de YouTube
-            // Ej: si tu link es youtube.com/watch?v=XyZ123, pon XyZ123. Se agrega ?autoplay=1 para que inicie solo.
-            document.getElementById('mainInfoIframe').src = "https://www.youtube.com/embed/ID_DE_VIDEO_BIENVENIDA?autoplay=1";
+        // NUEVA FUNCIÓN: Desbloquea el embudo oculto y baja al usuario
+        function unlockCatalog() {
+            const hiddenContent = document.getElementById('hiddenFunnelContent');
             
-            modal.classList.remove('hidden');
+            // Hace visible la sección en la estructura HTML
+            hiddenContent.classList.remove('hidden');
+            
+            // Aplica la transición animada de Tailwind CSS
             setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('.transform').classList.remove('scale-95');
-                modal.querySelector('.transform').classList.add('scale-100');
-            }, 10);
-        }
-
-        function closeInfoVideoModal() {
-            const modal = document.getElementById('infoVideoModal');
-            document.getElementById('mainInfoIframe').src = ""; // Al vaciar el src, detenemos el sonido del video automáticamente
-            modal.classList.add('opacity-0');
-            modal.querySelector('.transform').classList.remove('scale-100');
-            modal.querySelector('.transform').classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-            }, 300);
+                hiddenContent.classList.add('show');
+                
+                // Desplazamiento suave (smooth scroll) automático al catálogo
+                document.getElementById('catalogo').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }, 50);
         }
 
         // Funciones anteriores del Modal de Registro Oficial
