@@ -15,17 +15,72 @@
         .brand-gradient {
             background: linear-gradient(135deg, #ef4444 0%, #8b5cf6 50%, #3b82f6 100%);
         }
+        /* Animación personalizada para llamar la atención del código flotante */
+        @keyframes floatWiggle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .animate-float-custom {
+            animation: floatWiggle 3s ease-in-out infinite;
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-20 sm:pb-0">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-24 sm:pb-0">
 
-    <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+    <!-- MENSAJE FLOTANTE EN PARTE INFERIOR IZQUIERDA (CÓDIGO DE REFERIDO) -->
+    <div class="fixed bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-yellow-500/40 p-3 rounded-xl shadow-2xl z-40 flex items-center gap-3 animate-float-custom max-w-[280px] sm:max-w-xs">
+        <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-lg flex items-center justify-center text-lg shrink-0 border border-yellow-500/20">
+            <i class="fas fa-gift animate-pulse"></i>
+        </div>
+        <div>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Código Obligatorio</p>
+            <p class="text-sm font-black text-yellow-400 tracking-wider">HLHOF77964</p>
+            <p class="text-[11px] text-slate-300 mt-0.5 leading-tight">Úsalo al registrarte para activar tu descuento.</p>
+        </div>
+    </div>
+
+    <!-- BOTÓN FLOTANTE DE WHATSAPP (DERECHA) -->
     <a href="https://wa.me/51995500589?text=Hola!%20Vengo%20de%20tu%20p%C3%A1gina%20web%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n%20sobre%20las%20cuentas%20de%20streaming." 
        target="_blank" 
-       class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-50 animate-bounce"
+       class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-40 animate-bounce"
        title="Chatea con nosotros">
         <i class="fab fa-whatsapp"></i>
     </a>
+
+    <!-- VENTANA EMERGENTE ANIMADA (MODAL DE REFERIDO) -->
+    <div id="referralModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl max-w-md w-full mx-4 text-center transform scale-95 transition-transform duration-300 relative overflow-hidden shadow-2xl">
+            <div class="absolute -top-10 -right-10 w-24 h-24 bg-purple-500/10 rounded-full blur-xl"></div>
+            
+            <!-- Icono Animado -->
+            <div class="w-16 h-16 bg-yellow-500/10 text-yellow-400 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 border border-yellow-500/20 animate-bounce">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            
+            <h3 class="text-xl font-black text-white">¡Paso Importante!</h3>
+            <p class="text-sm text-slate-400 mt-2 leading-relaxed">
+                Para activar los <span class="text-white font-bold">precios con descuento</span>, asegúrate de escribir o pegar este código de referido cuando el sistema te lo solicite:
+            </p>
+            
+            <!-- Casilla del Código con opción de Copiar -->
+            <div class="my-5 bg-slate-950 border border-purple-500/30 p-4 rounded-xl flex items-center justify-between gap-2">
+                <span id="modalCode" class="text-xl font-mono font-black text-yellow-400 tracking-widest select-all">HLHOF77964</span>
+                <button onclick="copyCode()" class="text-xs bg-purple-600 hover:bg-purple-500 text-white font-bold px-3 py-2 rounded-lg transition-all flex items-center gap-1 active:scale-95">
+                    <i class="fas fa-copy"></i> <span id="copyText">Copiar</span>
+                </button>
+            </div>
+            
+            <!-- Botones de Acción dentro del modal -->
+            <div class="flex flex-col gap-2">
+                <a id="modalRedirectBtn" href="TU_ENLACE_DE_REFERIDO_AQUI" target="_blank" onclick="closeModal()" class="w-full inline-flex items-center justify-center px-6 py-3.5 font-bold text-white brand-gradient rounded-xl shadow-lg hover:opacity-90 transition-all text-sm uppercase tracking-wider">
+                    Copiar e Ir a Registrarme <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                </a>
+                <button onclick="closeModalOnly()" class="text-xs text-slate-500 hover:text-slate-400 mt-1 py-1 transition-colors">
+                    Volver a la página anterior
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- Barra de Navegación Superior -->
     <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
@@ -61,14 +116,14 @@
         </h1>
         
         <p class="mt-6 text-base sm:text-xl text-slate-400 max-w-3xl mx-auto font-medium">
-            Olvídate de pagar tarifas completas y costosas. Solicita tus pantallas por WhatsApp, te atendemos de inmediato con garantía 100% real y activación rápida.
+            Olvídate de pagar tarifas completas y costosas. Solicita tus pantallas directamente por WhatsApp o regístrate usando nuestro código exclusivo para obtener activación garantizada.
         </p>
 
         <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <!-- Este botón principal te registra en el sistema general -->
-            <a href="TU_ENLACE_DE_REFERIDO_AQUI" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white brand-gradient rounded-xl shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all glow-effect">
-                <i class="fasxl fa-rocket mr-2"></i> Registrarme de Forma Oficial
-            </a>
+            <!-- Este botón AHORA activa el mensaje emergente en vez de irse directo -->
+            <button onclick="openModal(event)" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white brand-gradient rounded-xl shadow-lg hover:opacity-90 transform hover:-translate-y-0.5 transition-all glow-effect">
+                <i class="fas fa-rocket mr-2"></i> Registrarme de Forma Oficial
+            </button>
             <a href="#catalogo" class="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-300 bg-slate-900 border border-slate-800 rounded-xl hover:bg-slate-800/80 transition-all">
                 Ver Catálogo y Precios
             </a>
@@ -121,7 +176,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN: CATÁLOGO LLAMATIVO (TODOS LOS BOTONES PIDEN POR WHATSAPP) -->
+    <!-- SECCIÓN: CATÁLOGO LLAMATIVO (BOTONES DIRECTO A TU WHATSAPP) -->
     <section id="catalogo" class="max-w-6xl mx-auto px-4 py-16">
         <div class="text-center mb-12">
             <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Elige tu Aplicación Favorita</h2>
@@ -146,7 +201,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 44.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 15.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Netflix%20Premium." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Netflix%20Premium%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -168,7 +223,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 38.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 13.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Disney%2B." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Disney%2B%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -190,7 +245,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 39.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 14.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Max%20(HBO)." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Max%20(HBO)%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -212,7 +267,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 19.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 7.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Prime%20Video." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Prime%20Video%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -234,7 +289,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 21.00</span>
                         <span class="text-lg font-black text-emerald-400">S/. 8.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Crunchyroll." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Crunchyroll%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -256,7 +311,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 19.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 7.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Paramount%2B." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Paramount%2B%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -278,7 +333,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 20.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 8.00</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Spotify%20Premium." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20Spotify%20Premium%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -300,7 +355,7 @@
                         <span class="text-xs text-slate-500 line-through block">S/. 20.90</span>
                         <span class="text-lg font-black text-emerald-400">S/. 7.50</span>
                     </div>
-                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20YouTube%20Premium." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
+                    <a href="https://wa.me/51995500589?text=%C2%A1Hola!%20Quiero%20pedir%20la%20cuenta%20de%20YouTube%20Premium%20con%20el%20c%C3%B3digo%20HLHOF77964." target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 hover:bg-emerald-500 px-3 py-2 rounded-lg transition-all flex items-center gap-1">
                         <i class="fab fa-whatsapp text-sm"></i> Pedir
                     </a>
                 </div>
@@ -344,6 +399,56 @@
         <p>© 2026 StreamZone - Club Informativo de Ahorro Digital.</p>
         <p class="mt-1">Esta es una landing page de afiliación informativa. Las marcas comerciales pertenecen a sus respectivos dueños.</p>
     </footer>
+
+    <!-- LOGICA JAVASCRIPT: Ventana emergente y Copiado automático -->
+    <script>
+        // Función para abrir la ventana emergente de forma animada
+        function openModal(event) {
+            event.preventDefault();
+            const modal = document.getElementById('referralModal');
+            modal.classList.remove('hidden');
+            // Retraso mínimo para permitir que la animación CSS se ejecute suavemente
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('.transform').classList.remove('scale-95');
+                modal.querySelector('.transform').classList.add('scale-100');
+            }, 10);
+        }
+
+        // Función para cerrar la ventana emergente únicamente
+        function closeModalOnly() {
+            const modal = document.getElementById('referralModal');
+            modal.classList.add('opacity-0');
+            modal.querySelector('.transform').classList.remove('scale-100');
+            modal.querySelector('.transform').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Función cuando el usuario hace clic para continuar al registro oficial
+        function closeModal() {
+            // Cierra la ventana justo después de hacer clic en ir al enlace
+            setTimeout(() => {
+                closeModalOnly();
+            }, 500);
+        }
+
+        // Función interactiva para copiar el código al portapapeles con un clic
+        function copyCode() {
+            const codeText = "HLHOF77964";
+            navigator.clipboard.writeText(codeText).then(() => {
+                const btnText = document.getElementById('copyText');
+                btnText.innerText = "¡Copiado!";
+                // Regresa al texto original después de 2 segundos
+                setTimeout(() => {
+                    btnText.innerText = "Copiar";
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar el código: ', err);
+            });
+        }
+    </script>
 
 </body>
 </html>
