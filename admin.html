@@ -32,15 +32,67 @@
         </table>
     </div>
 
-   <script>
-    // --- LÍNEA DE PRUEBA: Si esto sale en la consola, el archivo está actualizado ---
+    <script>
+        // --- LÍNEA DE PRUEBA: Si esto sale en la consola, el archivo está actualizado ---
     console.log("¡Carga exitosa! El archivo admin.html está actualizado.");
+        // 1. CONFIGURACIÓN ÚNICA
+        const USER_ADMIN = "coby"; 
+        const PASS_ADMIN = "12345"; 
+        
+        // 2. CONEXIÓN SUPABASE (Datos de tu captura)
+        const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
+        const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const USER_ADMIN = "coby"; 
-    const PASS_ADMIN = "12345"; 
-    
-    // ...resto de tu código...
-    // (Asegúrate de dejar el resto de funciones login, loadRentals, etc. aquí abajo)
-</script>
+        // 3. FUNCIÓN DE LOGIN
+        function login() {
+            const u = document.getElementById('userField').value;
+            const p = document.getElementById('passField').value;
+            
+            if (u === USER_ADMIN && p === PASS_ADMIN) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadRentals();
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+        }
+
+        // 4. LÓGICA DE TABLA
+        async function loadRentals() {
+            const { data, error } = await supabase.from('alquileres').select('*');
+            if (error) { console.error("Error Supabase:", error); return; }
+            
+            const tbody = document.getElementById('rentalTable');
+            tbody.innerHTML = '';
+            
+            if (data) {
+                data.forEach(r => {
+                    const diff = Math.floor((new Date() - new Date(r.start_date)) / (1000 * 60 * 60 * 24));
+                    let color = (diff > 27) ? 'bg-red-500' : (diff > 20) ? 'bg-yellow-500' : 'bg-green-500';
+                    tbody.innerHTML += `
+                        <tr class="border-b border-slate-800">
+                            <td class="p-4">${r.client_name}</td>
+                            <td class="p-4">${r.app_name}</td>
+                            <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
+                            <td class="p-4">
+                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+        }
+
+        async function addRental() {
+            const client = document.getElementById('clientName').value;
+            const phone = document.getElementById('phone').value;
+            const app = document.getElementById('appName').value;
+            const date = document.getElementById('startDate').value;
+            
+            await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
+            location.reload();
+        }
+    </script>
 </body>
 </html>
