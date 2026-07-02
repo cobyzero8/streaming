@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel StreamZone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-950 text-white p-8">
+
+    <div id="loginSection" class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-2xl border border-slate-800">
+        <h2 class="text-xl font-black mb-6">Acceso Administrativo</h2>
+        <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
+        <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
+        <button id="loginBtn" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500">Entrar</button>
+    </div>
+
+    <div id="dashboard" class="hidden max-w-6xl mx-auto">
+        <h1 class="text-3xl font-black mb-6">Control de Alquileres</h1>
+        </div>
+
+    <script>
+        console.log("El script se cargó correctamente.");
+
+        const USER_ADMIN = "coby"; 
+        const PASS_ADMIN = "12345"; 
+        
+        // Conexión
+        const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
+        const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // USAMOS ESTO EN LUGAR DE ONCLICK (Es mucho más seguro)
+        document.getElementById('loginBtn').addEventListener('click', function() {
+            const u = document.getElementById('userField').value;
+            const p = document.getElementById('passField').value;
+            
+            console.log("Intentando entrar con:", u, p);
+
+            if (u === USER_ADMIN && p === PASS_ADMIN) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                alert("¡Acceso concedido!");
+            } else {
+                alert("Usuario o contraseña incorrectos");
+            }
+        });
+    </script>
+</body>
+</html>
