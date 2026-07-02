@@ -87,111 +87,82 @@
         </section>
     </div>
 
-    <script>
-       
-           // 1. Configuración (Usa la llave NUEVA después de regenerarla)
+   <script>
+    // 1. REGENERA TUS CLAVES EN SUPABASE Y PÉGALAS AQUÍ
     const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
-    const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; // Pega aquí tu llave nueva
+    const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
 
-    // 2. Inicialización segura
-    // Si usas el script de CDN, a veces necesitamos acceder a través de window.supabase
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // 2. Usamos 'supabaseClient' para evitar el error de "ya declarado"
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-      
-        let alquileres = [];
+    let alquileres = [];
 
-        async function cargarDatosDeBaseDeDatos() {
-            const { data, error } = await supabase.from('alquileres').select('*');
-            if (error) {
-                console.error('Error al cargar:', error);
-            } else {
-                alquileres = data;
-                renderTabla();
-            }
+    async function cargarDatosDeBaseDeDatos() {
+        // Usamos supabaseClient en lugar de supabase
+        const { data, error } = await supabaseClient.from('alquileres').select('*');
+        if (error) {
+            console.error('Error al cargar:', error);
+            alert('Error al conectar con la base de datos');
+        } else {
+            alquileres = data;
+            renderTabla();
         }
+    }
 
-        function calcularFechaFin() {
-            const startInput = document.getElementById('start_date').value;
-            if (!startInput) return;
-            let fecha = new Date(startInput + 'T00:00:00');
-            fecha.setDate(fecha.getDate() + 30);
-            document.getElementById('end_date').value = fecha.toISOString().split('T')[0];
-        }
+    // ... (Mantén tus funciones calcularFechaFin y calcularFechaFinRenovacion igual) ...
 
-        function renderTabla() {
-            const tbody = document.getElementById('tablaCuerpo');
-            const alertas = document.getElementById('alertasContainer');
-            tbody.innerHTML = '';
-            alertas.innerHTML = '';
-            const hoy = new Date();
-            hoy.setHours(0,0,0,0);
+    function renderTabla() {
+        const tbody = document.getElementById('tablaCuerpo');
+        const alertas = document.getElementById('alertasContainer');
+        tbody.innerHTML = '';
+        alertas.innerHTML = '';
+        const hoy = new Date();
+        hoy.setHours(0,0,0,0);
 
-            alquileres.forEach(alq => {
-                const fInicio = new Date(alq.start_date + 'T00:00:00');
-                const diffTime = hoy - fInicio; 
-                let diasPasados = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                if (diasPasados < 0) diasPasados = 0;
+        alquileres.forEach(alq => {
+            const fInicio = new Date(alq.start_date + 'T00:00:00');
+            const diffTime = hoy - fInicio; 
+            let diasPasados = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            if (diasPasados < 0) diasPasados = 0;
+            if (diasPasados > 30) return; 
 
-                // FILTRO DE 30 DÍAS
-                if (diasPasados > 30) return; 
-
-                let colorClase = diasPasados <= 20 ? 'bg-emerald-950/30 text-emerald-400 border-emerald-900/50' : 
-                                 diasPasados <= 28 ? 'bg-orange-950/30 text-orange-400 border-orange-900/50' : 
-                                 'bg-red-950/40 text-red-400 border-red-500/50 animate-pulse';
-                
-                let estadoTexto = diasPasados <= 20 ? `Día ${diasPasados}` : 
-                                  diasPasados <= 28 ? `Día ${diasPasados} - Alerta` : `Día ${diasPasados} - CRÍTICO`;
-
-                if (diasPasados >= 29) {
-                    alertas.innerHTML += `<div class="bg-red-950/80 border border-red-500 p-4 rounded-xl flex justify-between items-center text-white text-xs">
-                        <div>¡Alerta! ${alq.client_name} (${alq.phone}) vence en breve.</div>
-                        <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded">Avisar</a>
-                    </div>`;
-                }
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="px-4 py-3">${alq.order_number}</td>
-                    <td class="px-4 py-3 font-bold">${alq.client_name}</td>
-                    <td class="px-4 py-3">${alq.phone}</td>
-                    <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
-                    <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: <span class="text-emerald-400">${alq.end_date}</span></td>
-                    <td class="px-4 py-3"><span class="px-2 py-1 rounded border text-[10px] font-bold ${colorClase}">${estadoTexto}</span></td>
-                    <td class="px-4 py-3 text-center">
-                        <button onclick="eliminarRegistro(${alq.id})" class="bg-red-600 text-white px-2 py-1 rounded text-xs">Eliminar</button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function eliminarRegistro(id) {
-            if(confirm('¿Eliminar registro?')) {
-                const { error } = await supabase.from('alquileres').delete().eq('id', id);
-                if(!error) await cargarDatosDeBaseDeDatos();
-            }
-        }
-
-        document.getElementById('registroForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const newData = {
-                order_number: document.getElementById('order_number').value,
-                client_name: document.getElementById('client_name').value,
-                phone: document.getElementById('phone').value,
-                app_name: document.getElementById('app_name').value,
-                provider: document.getElementById('provider').value,
-                start_date: document.getElementById('start_date').value,
-                end_date: document.getElementById('end_date').value
-            };
-            const { error } = await supabase.from('alquileres').insert([newData]);
-            if (error) alert('Error: ' + error.message);
-            else {
-                this.reset();
-                await cargarDatosDeBaseDeDatos();
-            }
+            // ... (resto de tu lógica de renderizado igual) ...
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="px-4 py-3">${alq.order_number}</td>
+                <td class="px-4 py-3 font-bold">${alq.client_name}</td>
+                <td class="px-4 py-3">${alq.phone}</td>
+                <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
+                <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: <span class="text-emerald-400">${alq.end_date}</span></td>
+                <td class="px-4 py-3 text-center"><button onclick="eliminarRegistro(${alq.id})" class="bg-red-600 text-white px-2 py-1 rounded text-xs">Eliminar</button></td>
+            `;
+            tbody.appendChild(tr);
         });
+    }
 
-        cargarDatosDeBaseDeDatos();
-    </script>
+    // Asegúrate de cambiar esto también dentro del form
+    document.getElementById('registroForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const newData = {
+            order_number: document.getElementById('order_number').value,
+            client_name: document.getElementById('client_name').value,
+            phone: document.getElementById('phone').value,
+            app_name: document.getElementById('app_name').value,
+            provider: document.getElementById('provider').value,
+            start_date: document.getElementById('start_date').value,
+            end_date: document.getElementById('end_date').value
+        };
+        
+        // Usamos supabaseClient aquí
+        const { error } = await supabaseClient.from('alquileres').insert([newData]);
+        if (error) alert('Error al guardar: ' + error.message);
+        else {
+            this.reset();
+            await cargarDatosDeBaseDeDatos();
+        }
+    });
+
+    cargarDatosDeBaseDeDatos();
+</script>
 </body>
 </html>
