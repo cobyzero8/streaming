@@ -44,17 +44,21 @@
 
         // 3. FUNCIÓN DE LOGIN
         function login() {
-            const u = document.getElementById('userField').value;
-            const p = document.getElementById('passField').value;
-            
-            if (u === USER_ADMIN && p === PASS_ADMIN) {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                loadRentals();
-            } else {
-                alert("Usuario o contraseña incorrectos");
-            }
-        }
+    const u = document.getElementById('userField').value;
+    const p = document.getElementById('passField').value;
+    
+    // ESTA LÍNEA TE DIRÁ QUÉ ESTÁ LEYENDO EL NAVEGADOR
+    console.log("Intentando entrar con:", u, "y", p);
+    console.log("Credenciales esperadas:", USER_ADMIN, PASS_ADMIN);
+
+    if (u === USER_ADMIN && p === PASS_ADMIN) {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        loadRentals();
+    } else {
+        alert("Usuario o contraseña incorrectos. Lo que escribiste fue: Usuario='" + u + "', Pass='" + p + "'");
+    }
+}
 
         // 4. LÓGICA DE TABLA
         async function loadRentals() {
