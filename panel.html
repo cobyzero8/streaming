@@ -30,31 +30,20 @@
         </section>
 
         <div id="alertasContainer" class="mb-6 space-y-2"></div>
+
         <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
             <table class="w-full text-left">
                 <thead class="bg-slate-950/80 text-[10px] text-slate-400 uppercase">
-                    <tr><th class="px-4 py-3">Nombre</th><th class="px-4 py-3">Celular</th><th class="px-4 py-3">App</th><th class="px-4 py-3">Fechas</th><th class="px-4 py-3">Estado</th><th class="px-4 py-3">Acciones</th></tr>
+                    <tr><th class="px-4 py-3">N°</th><th class="px-4 py-3">Nombre</th><th class="px-4 py-3">App</th><th class="px-4 py-3">Fechas</th><th class="px-4 py-3">Estado</th><th class="px-4 py-3 text-center">Acciones</th></tr>
                 </thead>
                 <tbody id="tablaCuerpo" class="divide-y divide-slate-800/50 text-sm"></tbody>
             </table>
         </section>
     </div>
 
-    <div id="modalRenovacion" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-        <div class="bg-slate-900 border border-purple-500 p-6 rounded-2xl max-w-sm w-full">
-            <h3 class="text-lg font-bold text-white mb-4">Renovar Alquiler</h3>
-            <input type="hidden" id="renew_id">
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Nueva Fecha Inicio</label>
-            <input type="date" id="renew_start" onchange="calcRenovacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 mb-3">
-            <label class="block text-[10px] font-bold text-slate-400 uppercase">Nueva Fecha Fin</label>
-            <input type="date" id="renew_end" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 mb-5">
-            <div class="flex gap-3"><button onclick="cerrarModal()" class="flex-1 bg-slate-800 py-2 rounded-lg">Cancelar</button><button onclick="guardarRenovacion()" class="flex-1 bg-emerald-600 py-2 rounded-lg">Confirmar</button></div>
-        </div>
-    </div>
-
     <script>
         const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; // <--- PEGA TU NUEVA LLAVE AQUÍ
+        const SUPABASE_ANON_KEY = 'TU_NUEVA_LLAVE_AQUI'; // <--- PEGA TU NUEVA LLAVE
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         let alquileres = [];
 
@@ -70,13 +59,6 @@
             let date = new Date(start + 'T00:00:00');
             date.setDate(date.getDate() + 30);
             document.getElementById('end_date').value = date.toISOString().split('T')[0];
-        }
-
-        function calcRenovacion() {
-            let start = document.getElementById('renew_start').value;
-            let date = new Date(start + 'T00:00:00');
-            date.setDate(date.getDate() + 30);
-            document.getElementById('renew_end').value = date.toISOString().split('T')[0];
         }
 
         function renderTabla() {
@@ -97,39 +79,51 @@
                 let estado = diasPasados <= 20 ? `Día ${diasPasados}` : (diasPasados <= 28 ? `Alerta: Día ${diasPasados}` : `CRÍTICO: Día ${diasPasados}`);
 
                 if (diasPasados >= 29) {
-                    alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white text-xs border border-red-500">
-                        <span>Preguntar renovación a: <b>${alq.client_name}</b> (${alq.phone})</span>
-                        <div class="flex gap-2"><button onclick="abrirRenovacion(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded">Renovará</button><button onclick="noRenovara(${alq.id})" class="bg-red-600 px-3 py-1 rounded">No</button></div>
+                    alertas.innerHTML += `
+                    <div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
+                        <span>Alerta: <b>${alq.client_name}</b> (${alq.phone}) vence pronto.</span>
+                        <div class="flex gap-2">
+                            <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
+                            <button onclick="eliminarRegistro(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No</button>
+                        </div>
                     </div>`;
                 }
 
                 tbody.innerHTML += `<tr>
-                    <td class="px-4 py-3 font-bold">${alq.client_name}</td>
-                    <td class="px-4 py-3">${alq.phone}</td>
+                    <td class="px-4 py-3">${alq.order_number}</td>
+                    <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
                     <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
-                    <td class="px-4 py-3">I: ${alq.start_date}<br>F: <span class="text-emerald-400">${alq.end_date}</span></td>
+                    <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: <span class="text-emerald-400">${alq.end_date}</span></td>
                     <td class="px-4 py-3 font-black ${color}">${estado}</td>
-                    <td class="px-4 py-3"><button onclick="eliminarRegistro(${alq.id})" class="text-slate-500 hover:text-red-500">Eliminar</button></td>
+                    <td class="px-4 py-3 text-center">
+                        <button onclick="modificar(${alq.id})" class="text-blue-400 hover:text-white mr-3">Modificar</button>
+                        <button onclick="eliminarRegistro(${alq.id})" class="text-red-500 hover:text-white">Eliminar</button>
+                    </td>
                 </tr>`;
             });
         }
 
-        async function noRenovara(id) {
-            const { error } = await supabaseClient.from('alquileres').delete().eq('id', id);
-            if(!error) cargarDatos();
+        async function eliminarRegistro(id) {
+            if(confirm('¿Eliminar este registro?')) {
+                await supabaseClient.from('alquileres').delete().eq('id', id);
+                cargarDatos();
+            }
         }
 
-        async function guardarRenovacion() {
-            let id = document.getElementById('renew_id').value;
-            let start = document.getElementById('renew_start').value;
-            let end = document.getElementById('renew_end').value;
-            const { error } = await supabaseClient.from('alquileres').update({ start_date: start, end_date: end }).eq('id', id);
-            if(!error) { cerrarModal(); cargarDatos(); }
+        async function renovar(id) {
+            let newStart = prompt("Ingresa la nueva fecha de inicio (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
+            if(newStart) {
+                let date = new Date(newStart + 'T00:00:00');
+                date.setDate(date.getDate() + 30);
+                let newEnd = date.toISOString().split('T')[0];
+                await supabaseClient.from('alquileres').update({ start_date: newStart, end_date: newEnd }).eq('id', id);
+                cargarDatos();
+            }
         }
 
-        function abrirRenovacion(id) { document.getElementById('renew_id').value = id; document.getElementById('modalRenovacion').classList.replace('hidden', 'flex'); }
-        function cerrarModal() { document.getElementById('modalRenovacion').classList.replace('flex', 'hidden'); }
-        async function eliminarRegistro(id) { if(confirm('¿Eliminar?')) { await supabaseClient.from('alquileres').delete().eq('id', id); cargarDatos(); } }
+        async function modificar(id) {
+            alert("Para modificar, por favor borra el registro y regístralo nuevamente con los datos correctos por seguridad.");
+        }
 
         document.getElementById('registroForm').addEventListener('submit', async function(e) {
             e.preventDefault();
