@@ -9,23 +9,21 @@
 <body class="bg-slate-950 text-white p-8">
 
     <div id="loginSection" class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-2xl border border-slate-800">
-        <h2 class="text-xl font-black mb-6">Acceso Administrativo</h2>
-        <input type="email" id="email" placeholder="Correo" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4">
-        <input type="password" id="password" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4">
-        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold">Entrar</button>
+        <h2 class="text-xl font-black mb-6 text-white">Acceso Administrativo</h2>
+        <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
+        <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
+        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500 transition-colors">Entrar</button>
     </div>
 
     <div id="dashboard" class="hidden max-w-6xl mx-auto">
         <h1 class="text-3xl font-black mb-6">Control de Alquileres</h1>
-        
         <div class="bg-slate-900 p-6 rounded-2xl mb-8 border border-slate-800 grid grid-cols-1 md:grid-cols-4 gap-4">
             <input type="text" id="clientName" placeholder="Nombre Cliente" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
-            <input type="text" id="phone" placeholder="WhatsApp (ej: 51999888777)" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
+            <input type="text" id="phone" placeholder="Celular (ej: 51995500589)" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
             <input type="text" id="appName" placeholder="App (Netflix...)" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
             <input type="date" id="startDate" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
             <button onclick="addRental()" class="md:col-span-4 bg-emerald-600 p-3 rounded-xl font-bold hover:bg-emerald-500">Registrar Alquiler</button>
         </div>
-
         <table class="w-full text-left border-collapse bg-slate-900 rounded-2xl overflow-hidden">
             <thead class="bg-slate-800 text-slate-400 text-xs uppercase">
                 <tr><th class="p-4">Cliente</th><th class="p-4">App</th><th class="p-4">Días</th><th class="p-4">Acción</th></tr>
@@ -35,40 +33,69 @@
     </div>
 
     <script>
-    // 1. Asegúrate de usar esta forma para crear el cliente
-    const supabaseUrl = 'TU_URL_AQUI';
-    const supabaseKey = 'TU_KEY_AQUI';
-    
-    // El objeto global es 'supabase'
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        // CONFIGURACIÓN DE ACCESO
+        const USUARIO_VALIDO = "admin"; 
+        const PASS_VALIDA = "12345"; 
 
-    // 2. Definimos la función login de forma global para que el botón la encuentre
-    async function login() {
-        console.log("Intentando iniciar sesión..."); // Esto ayuda a depurar
-        
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        // CONFIGURACIÓN DE SUPABASE (REEMPLAZA CON TUS DATOS)
+        const supabaseUrl = 'TU_URL_AQUI';
+        const supabaseKey = 'TU_KEY_AQUI';
+        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password,
-            });
+        // FUNCIÓN LOGIN (Global para que el botón la encuentre)
+        function login() {
+            const u = document.getElementById('userField').value;
+            const p = document.getElementById('passField').value;
 
-            if (error) {
-                alert("Error: " + error.message);
-                return;
+            if (u === USUARIO_VALIDO && p === PASS_VALIDA) {
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                loadRentals();
+            } else {
+                alert("Usuario o contraseña incorrectos");
             }
-
-            // Si entra aquí, es éxito
-            alert("¡Bienvenido!");
-            location.reload(); // Recarga para mostrar el dashboard
-            
-        } catch (err) {
-            console.error("Error crítico:", err);
-            alert("Ocurrió un error inesperado.");
         }
-    }
-</script>
+
+        // LÓGICA DE DATOS
+        async function loadRentals() {
+            const { data } = await supabase.from('alquileres').select('*');
+            const tbody = document.getElementById('rentalTable');
+            tbody.innerHTML = '';
+            
+            if (!data) return;
+
+            data.forEach(r => {
+                const diff = Math.floor((new Date() - new Date(r.start_date)) / (1000 * 60 * 60 * 24));
+                let color = 'bg-green-500';
+                if (diff > 20 && diff <= 27) color = 'bg-yellow-500';
+                if (diff >= 28) color = 'bg-red-500';
+                
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-800">
+                        <td class="p-4">${r.client_name}</td>
+                        <td class="p-4">${r.app_name}</td>
+                        <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
+                        <td class="p-4">
+                            <a href="https://wa.me/${r.phone}?text=Hola ${r.client_name}, tu cuenta de ${r.app_name} vence pronto. ¡Renueva ya!" 
+                               target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs text-black font-bold">Avisar</a>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function addRental() {
+            const client = document.getElementById('clientName').value;
+            const phone = document.getElementById('phone').value;
+            const app = document.getElementById('appName').value;
+            const date = document.getElementById('startDate').value;
+            
+            if(!client || !date) return alert("Completa los campos");
+            
+            await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
+            alert("Registrado");
+            loadRentals();
+        }
+    </script>
 </body>
 </html>
