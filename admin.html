@@ -33,16 +33,20 @@
     </div>
 
     <script>
-        // 1. CONFIGURACIÓN
+        console.log("CARGANDO VERSIÓN NUEVA");
+        
         const USER_ADMIN = "coby"; 
         const PASS_ADMIN = "12345"; 
-        
-        // 2. CONEXIÓN (IMPORTANTE: Usa tus claves nuevas tras regenerar)
-        const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
-        const supabaseKey = 'TU_NUEVA_KEY_PUBLIC_AQUI'; 
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 3. LOGIN
+        const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
+        // ASEGÚRATE QUE ESTA KEY SEA LA QUE ACABAS DE GENERAR (anon public)
+        const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; 
+        
+        // Verificamos que supabse no esté declarado antes
+        if (typeof supabase === 'undefined') {
+            window.supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        }
+
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
@@ -56,10 +60,8 @@
             }
         }
 
-        // 4. TABLA
         async function loadRentals() {
-            const { data, error } = await supabase.from('alquileres').select('*');
-            if (error) { console.error("Error:", error); return; }
+            const { data } = await window.supabase.from('alquileres').select('*');
             const tbody = document.getElementById('rentalTable');
             tbody.innerHTML = '';
             if (data) {
@@ -76,7 +78,7 @@
             const phone = document.getElementById('phone').value;
             const app = document.getElementById('appName').value;
             const date = document.getElementById('startDate').value;
-            await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
+            await window.supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
             location.reload();
         }
     </script>
