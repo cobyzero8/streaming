@@ -88,11 +88,16 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN SUPABASE
-        const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
-        const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
+       
+           // 1. Configuración (Usa la llave NUEVA después de regenerarla)
+    const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; // Pega aquí tu llave nueva
+
+    // 2. Inicialización segura
+    // Si usas el script de CDN, a veces necesitamos acceder a través de window.supabase
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+      
         let alquileres = [];
 
         async function cargarDatosDeBaseDeDatos() {
