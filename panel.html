@@ -306,12 +306,20 @@
             // Refrescar datos...
         }
 
-        function noRenovara(id) {
-            if(confirm('Al marcar "No renovará", el sistema eliminará la cuenta automáticamente al cumplirse el día 30. ¿Confirmar?')) {
-                // Aquí podrías agregar un campo en Supabase: status: 'pending_deletion'
-                alert(`El registro ${id} ha sido programado para eliminación.`);
-            }
-        }
+        async function noRenovara(id) {
+                if(confirm('¿Estás seguro de que este cliente NO renovará? El registro se eliminará de la base de datos inmediatamente.')) {
+        
+        // 1. Código real para borrar en Supabase:
+        // const { error } = await supabase.from('alquileres').delete().eq('id', id);
+        // if (error) return alert('Error al eliminar: ' + error.message);
+
+        // 2. Lógica visual para actualizar tu tabla
+        alquileres = alquileres.filter(alq => alq.id !== id);
+        renderTabla();
+        
+        alert(`El registro ha sido eliminado exitosamente.`);
+    }
+}
 
         /* ==========================================
            REGISTRAR NUEVO (FORMULARIO PRINCIPAL)
