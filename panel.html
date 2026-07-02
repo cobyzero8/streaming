@@ -161,6 +161,9 @@
         /* ==========================================
            RENDERIZADO Y LÓGICA DE COLORES
         ========================================== */
+       /* ==========================================
+           RENDERIZADO Y LÓGICA DE COLORES
+        ========================================== */
         function renderTabla() {
             const tbody = document.getElementById('tablaCuerpo');
             const alertas = document.getElementById('alertasContainer');
@@ -172,8 +175,20 @@
 
             alquileres.forEach(alq => {
                 const fInicio = new Date(alq.start_date + 'T00:00:00');
-                const diffTime = Math.abs(hoy - fInicio);
-                const diasPasados = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                // Calculamos los días restando la fecha de inicio a la fecha actual
+                const diffTime = hoy - fInicio; 
+                let diasPasados = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                // Si la fecha de inicio es en el futuro, mostramos Día 0
+                if (diasPasados < 0) diasPasados = 0;
+
+                // 🛑 REGLA ESTRICTA DE 30 DÍAS 🛑
+                // Si ya pasó al día 31, usamos "return" para saltarnos este registro
+                // y NO dibujarlo en la tabla (simulando la eliminación a las 00h).
+                if (diasPasados > 30) {
+                    return; 
+                }
 
                 let colorClase = '';
                 let estadoTexto = '';
@@ -186,7 +201,7 @@
                 } else if (diasPasados >= 21 && diasPasados <= 28) {
                     colorClase = 'bg-orange-950/30 text-orange-400 border-orange-900/50';
                     estadoTexto = `Día ${diasPasados} - Alerta`;
-                } else if (diasPasados >= 29) {
+                } else if (diasPasados >= 29) { // Aplica para el día 29 y 30
                     colorClase = 'bg-red-950/40 text-red-400 border-red-500/50 animate-pulse';
                     estadoTexto = `Día ${diasPasados} - CRÍTICO`;
                     requiereAccion = true;
@@ -204,12 +219,6 @@
                             </a>
                         </div>
                     `;
-                }
-
-                // Verificar si ya superó el día 30 para eliminar
-                if (diasPasados > 30) {
-                    // Aquí iría tu código Supabase para eliminar: await supabase.from('alquileres').delete().eq('id', alq.id);
-                    // Para el frontend, simplemente no lo renderizamos o lo marcamos inactivo.
                 }
 
                 // HTML de la Fila (con inputs ocultos para edición en línea)
