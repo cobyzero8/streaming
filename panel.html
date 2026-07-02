@@ -21,22 +21,18 @@
         <section class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl shadow-xl mb-10">
             <h2 class="text-lg font-bold text-white mb-4"><i class="fas fa-plus-circle text-purple-400 mr-2"></i>Nuevo Alquiler</h2>
             <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
-                
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">N° (Orden)</label>
                     <input type="text" id="order_number" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
                 </div>
-
                 <div class="md:col-span-2">
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nombre y Apellido</label>
                     <input type="text" id="client_name" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Celular</label>
                     <input type="text" id="phone" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">App</label>
                     <select id="app_name" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
@@ -46,22 +42,18 @@
                         <option value="Prime Video">Prime Video</option>
                     </select>
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Proveedor</label>
                     <input type="text" id="provider" required class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Fecha de Inicio</label>
                     <input type="date" id="start_date" required onchange="calcularFechaFin()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:border-purple-500 focus:outline-none">
                 </div>
-
                 <div>
                     <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Fecha de Fin</label>
                     <input type="date" id="end_date" required class="w-full bg-slate-950 border border-purple-500/50 rounded-lg px-3 py-2 text-sm text-emerald-400 font-bold focus:outline-none bg-purple-950/20">
                 </div>
-
                 <div class="md:col-span-4 mt-2">
                     <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-black py-3 rounded-xl transition-all shadow-lg shadow-purple-900/20 uppercase tracking-wider text-sm">
                         <i class="fas fa-save mr-2"></i> Registrar Alquiler
@@ -76,266 +68,107 @@
             <div class="px-6 py-4 border-b border-slate-800 bg-slate-900/80">
                 <h3 class="text-lg font-bold text-white"><i class="fas fa-table text-blue-400 mr-2"></i>Base de Datos de Alquileres</h3>
             </div>
-            
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse whitespace-nowrap">
                     <thead>
                         <tr class="bg-slate-950/80 text-[10px] text-slate-400 uppercase tracking-widest border-b border-slate-800">
                             <th class="px-4 py-3 font-bold">N°</th>
-                            <th class="px-4 py-3 font-bold">Nombre y Apellido</th>
+                            <th class="px-4 py-3 font-bold">Nombre</th>
                             <th class="px-4 py-3 font-bold">Celular</th>
                             <th class="px-4 py-3 font-bold">App</th>
-                            <th class="px-4 py-3 font-bold">Proveedor</th>
                             <th class="px-4 py-3 font-bold">Fechas</th>
                             <th class="px-4 py-3 font-bold">Estado</th>
                             <th class="px-4 py-3 font-bold text-center">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody id="tablaCuerpo" class="divide-y divide-slate-800/50 text-sm">
-                        </tbody>
+                    <tbody id="tablaCuerpo" class="divide-y divide-slate-800/50 text-sm"></tbody>
                 </table>
             </div>
         </section>
-
-        <div id="modalRenovacion" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-            <div class="bg-slate-900 border border-purple-500 p-6 rounded-2xl max-w-sm w-full">
-                <h3 class="text-lg font-bold text-white mb-4">Renovar Alquiler</h3>
-                <p class="text-xs text-slate-400 mb-4">Ingresa las nuevas fechas para mantener el servicio activo.</p>
-                <input type="hidden" id="renew_id">
-                <div class="mb-3">
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nueva Fecha Inicio</label>
-                    <input type="date" id="renew_start" onchange="calcularFechaFinRenovacion()" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-                </div>
-                <div class="mb-5">
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-1">Nueva Fecha Fin</label>
-                    <input type="date" id="renew_end" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-emerald-400 font-bold">
-                </div>
-                <div class="flex gap-3">
-                    <button onclick="cerrarModal()" class="flex-1 bg-slate-800 text-white py-2 rounded-lg text-xs font-bold">Cancelar</button>
-                    <button onclick="guardarRenovacion()" class="flex-1 bg-emerald-600 text-white py-2 rounded-lg text-xs font-bold">Confirmar</button>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-        /* ==========================================
-           CONFIGURACIÓN SUPABASE
-           Reemplaza con tus credenciales reales
-        ========================================== */
+        // CONFIGURACIÓN SUPABASE
         const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
         const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
-        // const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        let alquileres = [];
 
-        // Array simulado para demostración (Reemplazar con supabase.from('alquileres').select())
-        let alquileres = [
-            { id: 1, order_number: '001', client_name: 'Juan Perez', phone: '999888777', app_name: 'Netflix', provider: 'Prov A', start_date: '2026-06-15', end_date: '2026-07-15' },
-            { id: 2, order_number: '002', client_name: 'Ana Lopez', phone: '995500589', app_name: 'Disney+', provider: 'Prov B', start_date: '2026-06-01', end_date: '2026-07-01' },
-            { id: 3, order_number: '003', client_name: 'Carlos Ruiz', phone: '911222333', app_name: 'Max', provider: 'Prov A', start_date: '2026-06-03', end_date: '2026-07-03' }
-        ];
+        async function cargarDatosDeBaseDeDatos() {
+            const { data, error } = await supabase.from('alquileres').select('*');
+            if (error) {
+                console.error('Error al cargar:', error);
+            } else {
+                alquileres = data;
+                renderTabla();
+            }
+        }
 
-        /* ==========================================
-           LÓGICA DE FECHAS (AGREGAR 30 DÍAS)
-        ========================================== */
         function calcularFechaFin() {
             const startInput = document.getElementById('start_date').value;
             if (!startInput) return;
-
-            if(confirm('¿El alquiler es por 30 días?')) {
-                let fecha = new Date(startInput + 'T00:00:00'); // Evitar desfase horario
-                fecha.setDate(fecha.getDate() + 30);
-                document.getElementById('end_date').value = fecha.toISOString().split('T')[0];
-            }
+            let fecha = new Date(startInput + 'T00:00:00');
+            fecha.setDate(fecha.getDate() + 30);
+            document.getElementById('end_date').value = fecha.toISOString().split('T')[0];
         }
 
-        function calcularFechaFinRenovacion() {
-            const startInput = document.getElementById('renew_start').value;
-            if (startInput) {
-                let fecha = new Date(startInput + 'T00:00:00');
-                fecha.setDate(fecha.getDate() + 30);
-                document.getElementById('renew_end').value = fecha.toISOString().split('T')[0];
-            }
-        }
-
-        /* ==========================================
-           RENDERIZADO Y LÓGICA DE COLORES
-        ========================================== */
-       /* ==========================================
-           RENDERIZADO Y LÓGICA DE COLORES
-        ========================================== */
         function renderTabla() {
             const tbody = document.getElementById('tablaCuerpo');
             const alertas = document.getElementById('alertasContainer');
             tbody.innerHTML = '';
             alertas.innerHTML = '';
-
             const hoy = new Date();
             hoy.setHours(0,0,0,0);
 
             alquileres.forEach(alq => {
                 const fInicio = new Date(alq.start_date + 'T00:00:00');
-                
-                // Calculamos los días restando la fecha de inicio a la fecha actual
                 const diffTime = hoy - fInicio; 
                 let diasPasados = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-                // Si la fecha de inicio es en el futuro, mostramos Día 0
                 if (diasPasados < 0) diasPasados = 0;
 
-                // 🛑 REGLA ESTRICTA DE 30 DÍAS 🛑
-                // Si ya pasó al día 31, usamos "return" para saltarnos este registro
-                // y NO dibujarlo en la tabla (simulando la eliminación a las 00h).
-                if (diasPasados > 30) {
-                    return; 
+                // FILTRO DE 30 DÍAS
+                if (diasPasados > 30) return; 
+
+                let colorClase = diasPasados <= 20 ? 'bg-emerald-950/30 text-emerald-400 border-emerald-900/50' : 
+                                 diasPasados <= 28 ? 'bg-orange-950/30 text-orange-400 border-orange-900/50' : 
+                                 'bg-red-950/40 text-red-400 border-red-500/50 animate-pulse';
+                
+                let estadoTexto = diasPasados <= 20 ? `Día ${diasPasados}` : 
+                                  diasPasados <= 28 ? `Día ${diasPasados} - Alerta` : `Día ${diasPasados} - CRÍTICO`;
+
+                if (diasPasados >= 29) {
+                    alertas.innerHTML += `<div class="bg-red-950/80 border border-red-500 p-4 rounded-xl flex justify-between items-center text-white text-xs">
+                        <div>¡Alerta! ${alq.client_name} (${alq.phone}) vence en breve.</div>
+                        <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded">Avisar</a>
+                    </div>`;
                 }
 
-                let colorClase = '';
-                let estadoTexto = '';
-                let requiereAccion = false;
-
-                // Lógica de colores según días transcurridos
-                if (diasPasados <= 20) {
-                    colorClase = 'bg-emerald-950/30 text-emerald-400 border-emerald-900/50';
-                    estadoTexto = `Día ${diasPasados}`;
-                } else if (diasPasados >= 21 && diasPasados <= 28) {
-                    colorClase = 'bg-orange-950/30 text-orange-400 border-orange-900/50';
-                    estadoTexto = `Día ${diasPasados} - Alerta`;
-                } else if (diasPasados >= 29) { // Aplica para el día 29 y 30
-                    colorClase = 'bg-red-950/40 text-red-400 border-red-500/50 animate-pulse';
-                    estadoTexto = `Día ${diasPasados} - CRÍTICO`;
-                    requiereAccion = true;
-
-                    // Crear mensaje de alerta
-                    alertas.innerHTML += `
-                        <div class="bg-red-950/80 border border-red-500 p-4 rounded-xl flex justify-between items-center shadow-lg">
-                            <div>
-                                <h4 class="text-red-400 font-black text-sm uppercase"><i class="fas fa-exclamation-triangle"></i> ¡Atención Requerida!</h4>
-                                <p class="text-xs text-white mt-1">Debes preguntar al cliente si va a renovar porque está por vencer su aplicativo. <br>
-                                Nombre: <strong class="text-yellow-400">${alq.client_name}</strong> | Celular: <strong class="text-yellow-400">${alq.phone}</strong></p>
-                            </div>
-                            <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-xs font-bold">
-                                <i class="fab fa-whatsapp"></i> Avisar
-                            </a>
-                        </div>
-                    `;
-                }
-
-                // HTML de la Fila (con inputs ocultos para edición en línea)
                 const tr = document.createElement('tr');
-                tr.className = 'hover:bg-slate-800/30 transition-colors group';
-                tr.id = `row-${alq.id}`;
                 tr.innerHTML = `
-                    <td class="px-4 py-3 font-mono text-xs">
-                        <span class="view-mode">${alq.order_number}</span>
-                        <input type="text" class="edit-mode hidden w-16 bg-slate-900 text-white border border-slate-600 rounded px-1" value="${alq.order_number}">
-                    </td>
-                    <td class="px-4 py-3 font-bold">
-                        <span class="view-mode">${alq.client_name}</span>
-                        <input type="text" class="edit-mode hidden w-full bg-slate-900 text-white border border-slate-600 rounded px-1" value="${alq.client_name}">
-                    </td>
-                    <td class="px-4 py-3 text-xs">
-                        <span class="view-mode">${alq.phone}</span>
-                        <input type="text" class="edit-mode hidden w-24 bg-slate-900 text-white border border-slate-600 rounded px-1" value="${alq.phone}">
-                    </td>
-                    <td class="px-4 py-3 text-xs font-bold text-purple-400">
-                        <span class="view-mode">${alq.app_name}</span>
-                        <input type="text" class="edit-mode hidden w-20 bg-slate-900 text-white border border-slate-600 rounded px-1" value="${alq.app_name}">
-                    </td>
-                    <td class="px-4 py-3 text-xs text-slate-400">
-                        <span class="view-mode">${alq.provider}</span>
-                        <input type="text" class="edit-mode hidden w-20 bg-slate-900 text-white border border-slate-600 rounded px-1" value="${alq.provider}">
-                    </td>
-                    <td class="px-4 py-3 text-[11px] text-slate-300">
-                        <div>I: <span class="view-mode">${alq.start_date}</span><input type="date" class="edit-mode hidden bg-slate-900 border border-slate-600 rounded px-1 text-[10px]" value="${alq.start_date}"></div>
-                        <div>F: <span class="view-mode text-emerald-400">${alq.end_date}</span><input type="date" class="edit-mode hidden bg-slate-900 border border-slate-600 rounded px-1 text-[10px]" value="${alq.end_date}"></div>
-                    </td>
-                    <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded border text-[10px] font-bold ${colorClase}">${estadoTexto}</span>
-                    </td>
+                    <td class="px-4 py-3">${alq.order_number}</td>
+                    <td class="px-4 py-3 font-bold">${alq.client_name}</td>
+                    <td class="px-4 py-3">${alq.phone}</td>
+                    <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
+                    <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: <span class="text-emerald-400">${alq.end_date}</span></td>
+                    <td class="px-4 py-3"><span class="px-2 py-1 rounded border text-[10px] font-bold ${colorClase}">${estadoTexto}</span></td>
                     <td class="px-4 py-3 text-center">
-                        <div class="view-actions flex gap-1 justify-center">
-                            <button onclick="toggleEdit(${alq.id})" class="bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white px-2 py-1 rounded text-xs transition-colors border border-blue-900">Modificar</button>
-                            ${requiereAccion ? `
-                                <button onclick="abrirRenovacion(${alq.id})" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs font-bold shadow-lg">Renovará</button>
-                                <button onclick="noRenovara(${alq.id})" class="bg-red-600 text-white px-2 py-1 rounded text-xs font-bold shadow-lg">No renovará</button>
-                            ` : ''}
-                        </div>
-                        <div class="edit-actions hidden flex gap-1 justify-center">
-                            <button onclick="guardarEdicion(${alq.id})" class="bg-emerald-600 text-white px-2 py-1 rounded text-xs font-bold">Guardar</button>
-                            <button onclick="toggleEdit(${alq.id})" class="bg-slate-600 text-white px-2 py-1 rounded text-xs font-bold">Cancelar</button>
-                        </div>
+                        <button onclick="eliminarRegistro(${alq.id})" class="bg-red-600 text-white px-2 py-1 rounded text-xs">Eliminar</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        /* ==========================================
-           MODIFICACIÓN EN LÍNEA
-        ========================================== */
-        function toggleEdit(id) {
-            const row = document.getElementById(`row-${id}`);
-            row.querySelectorAll('.view-mode, .edit-mode, .view-actions, .edit-actions').forEach(el => {
-                el.classList.toggle('hidden');
-            });
+        async function eliminarRegistro(id) {
+            if(confirm('¿Eliminar registro?')) {
+                const { error } = await supabase.from('alquileres').delete().eq('id', id);
+                if(!error) await cargarDatosDeBaseDeDatos();
+            }
         }
 
-        function guardarEdicion(id) {
-            // Aquí capturas los valores de los inputs 'edit-mode' y haces el UPDATE en Supabase.
-            // await supabase.from('alquileres').update({ client_name: nuevoNombre, ... }).eq('id', id);
-            alert(`Registro ${id} guardado en la base de datos (Simulado)`);
-            toggleEdit(id);
-            // Volver a renderizar la tabla tras la DB update...
-        }
-
-        /* ==========================================
-           RENOVACIÓN Y ELIMINACIÓN
-        ========================================== */
-        function abrirRenovacion(id) {
-            document.getElementById('renew_id').value = id;
-            document.getElementById('modalRenovacion').classList.replace('hidden', 'flex');
-        }
-
-        function cerrarModal() {
-            document.getElementById('modalRenovacion').classList.replace('flex', 'hidden');
-        }
-
-        function guardarRenovacion() {
-            const id = document.getElementById('renew_id').value;
-            const newStart = document.getElementById('renew_start').value;
-            const newEnd = document.getElementById('renew_end').value;
-            
-            if(!newStart || !newEnd) return alert('Completa las fechas');
-
-            // UPDATE Supabase: await supabase.from('alquileres').update({ start_date: newStart, end_date: newEnd }).eq('id', id);
-            
-            alert(`Cuenta renovada exitosamente hasta el ${newEnd}`);
-            cerrarModal();
-            // Refrescar datos...
-        }
-
-        async function noRenovara(id) {
-                if(confirm('¿Estás seguro de que este cliente NO renovará? El registro se eliminará de la base de datos inmediatamente.')) {
-        
-        // 1. Código real para borrar en Supabase:
-        // const { error } = await supabase.from('alquileres').delete().eq('id', id);
-        // if (error) return alert('Error al eliminar: ' + error.message);
-
-        // 2. Lógica visual para actualizar tu tabla
-        alquileres = alquileres.filter(alq => alq.id !== id);
-        renderTabla();
-        
-        alert(`El registro ha sido eliminado exitosamente.`);
-    }
-}
-
-        /* ==========================================
-           REGISTRAR NUEVO (FORMULARIO PRINCIPAL)
-        ========================================== */
-        document.getElementById('registroForm').addEventListener('submit', function(e) {
+        document.getElementById('registroForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            // Capturar datos del DOM
             const newData = {
                 order_number: document.getElementById('order_number').value,
                 client_name: document.getElementById('client_name').value,
@@ -345,19 +178,15 @@
                 start_date: document.getElementById('start_date').value,
                 end_date: document.getElementById('end_date').value
             };
-
-            // INSERT Supabase: await supabase.from('alquileres').insert([newData]);
-            
-            // Simulación visual
-            newData.id = Date.now();
-            alquileres.push(newData);
-            this.reset();
-            renderTabla();
-            alert('¡Alquiler registrado exitosamente!');
+            const { error } = await supabase.from('alquileres').insert([newData]);
+            if (error) alert('Error: ' + error.message);
+            else {
+                this.reset();
+                await cargarDatosDeBaseDeDatos();
+            }
         });
 
-        // Iniciar tabla
-        renderTabla();
+        cargarDatosDeBaseDeDatos();
     </script>
 </body>
 </html>
