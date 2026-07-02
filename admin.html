@@ -51,12 +51,23 @@
         }
 
         function login() {
-            if (document.getElementById('userField').value === USER_ADMIN && document.getElementById('passField').value === PASS_ADMIN) {
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboard').classList.remove('hidden');
-                loadRentals();
-            } else { alert("Error"); }
-        }
+    // 1. ESTO ES UNA PRUEBA: Si no sale este aviso, el botón no está conectado
+    alert("¡El botón funciona!"); 
+    
+    const u = document.getElementById('userField').value;
+    const p = document.getElementById('passField').value;
+    
+    console.log("Usuario ingresado:", u);
+    console.log("Contraseña ingresada:", p);
+
+    if (u === "coby" && p === "12345") {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        loadRentals();
+    } else {
+        alert("Usuario o contraseña incorrectos");
+    }
+}
 
         async function loadRentals() {
             const { data } = await supabase.from('alquileres').select('*');
