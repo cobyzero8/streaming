@@ -12,7 +12,7 @@
         <h2 class="text-xl font-black mb-6">Acceso Administrativo</h2>
         <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
         <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
-        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500">Entrar</button>
+        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500 transition-all">Entrar</button>
     </div>
 
     <div id="dashboard" class="hidden max-w-6xl mx-auto">
@@ -33,33 +33,39 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURACIÓN ---
+        // 1. CREDENCIALES
         const USER_ADMIN = "coby"; 
         const PASS_ADMIN = "12345"; 
         
-        // --- 2. CONEXIÓN (Solo una vez) ---
+        // 2. CONEXIÓN (La correcta)
         const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
         const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- 3. LÓGICA LOGIN ---
+        // 3. LÓGICA DE LOGIN CON DEPURACIÓN
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
             
+            // Esto imprimirá en la consola F12 qué estás escribiendo
+            console.log("Input Usuario:", u);
+            console.log("Input Pass:", p);
+
             if (u === USER_ADMIN && p === PASS_ADMIN) {
+                console.log("¡Credenciales correctas!");
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
                 loadRentals();
             } else {
-                alert("Usuario o contraseña incorrectos");
+                console.log("Credenciales incorrectas. Se esperaba: " + USER_ADMIN + " / " + PASS_ADMIN);
+                alert("Usuario o contraseña incorrectos. Revisa la consola (F12).");
             }
         }
 
-        // --- 4. LÓGICA DATOS ---
+        // 4. LÓGICA DE TABLA
         async function loadRentals() {
             const { data, error } = await supabase.from('alquileres').select('*');
-            if (error) { console.error("Error:", error); return; }
+            if (error) { console.error("Error al cargar datos:", error); return; }
             
             const tbody = document.getElementById('rentalTable');
             tbody.innerHTML = '';
@@ -74,7 +80,7 @@
                             <td class="p-4">${r.app_name}</td>
                             <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
                             <td class="p-4">
-                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a>
+                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs text-black font-bold">WhatsApp</a>
                             </td>
                         </tr>
                     `;
