@@ -10,8 +10,8 @@
 
     <div id="loginSection" class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-2xl border border-slate-800">
         <h2 class="text-xl font-black mb-6">Acceso Administrativo</h2>
-        <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4">
-        <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4">
+        <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
+        <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
         <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500">Entrar</button>
     </div>
 
@@ -33,20 +33,20 @@
     </div>
 
     <script>
-        // --- 1. CONFIGURACIÓN ---
-        const USER_ADMIN = "coby"; // CAMBIA ESTO
-        const PASS_ADMIN = "12345"; // CAMBIA ESTO
+        // 1. CONFIGURACIÓN ÚNICA
+        const USER_ADMIN = "coby"; 
+        const PASS_ADMIN = "12345"; 
         
-        // --- 2. CONEXIÓN SUPABASE (UNA SOLA VEZ) ---
+        // 2. CONEXIÓN SUPABASE (Datos de tu captura)
         const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
         const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // --- 3. LÓGICA DE LOGIN ---
+        // 3. FUNCIÓN DE LOGIN
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
-
+            
             if (u === USER_ADMIN && p === PASS_ADMIN) {
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
@@ -56,29 +56,30 @@
             }
         }
 
-        // --- 4. LÓGICA DE TABLA ---
+        // 4. LÓGICA DE TABLA
         async function loadRentals() {
-            const { data } = await supabase.from('alquileres').select('*');
+            const { data, error } = await supabase.from('alquileres').select('*');
+            if (error) { console.error("Error Supabase:", error); return; }
+            
             const tbody = document.getElementById('rentalTable');
             tbody.innerHTML = '';
             
-            if (!data) return;
-
-            data.forEach(r => {
-                const diff = Math.floor((new Date() - new Date(r.start_date)) / (1000 * 60 * 60 * 24));
-                let color = (diff > 27) ? 'bg-red-500' : (diff > 20) ? 'bg-yellow-500' : 'bg-green-500';
-                
-                tbody.innerHTML += `
-                    <tr class="border-b border-slate-800">
-                        <td class="p-4">${r.client_name}</td>
-                        <td class="p-4">${r.app_name}</td>
-                        <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
-                        <td class="p-4">
-                            <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a>
-                        </td>
-                    </tr>
-                `;
-            });
+            if (data) {
+                data.forEach(r => {
+                    const diff = Math.floor((new Date() - new Date(r.start_date)) / (1000 * 60 * 60 * 24));
+                    let color = (diff > 27) ? 'bg-red-500' : (diff > 20) ? 'bg-yellow-500' : 'bg-green-500';
+                    tbody.innerHTML += `
+                        <tr class="border-b border-slate-800">
+                            <td class="p-4">${r.client_name}</td>
+                            <td class="p-4">${r.app_name}</td>
+                            <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
+                            <td class="p-4">
+                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
         }
 
         async function addRental() {
