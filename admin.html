@@ -12,7 +12,7 @@
         <h2 class="text-xl font-black mb-6">Acceso Administrativo</h2>
         <input type="text" id="userField" placeholder="Usuario" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
         <input type="password" id="passField" placeholder="Contraseña" class="w-full bg-slate-950 border border-slate-800 p-3 rounded-xl mb-4 text-white">
-        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500 transition-all">Entrar</button>
+        <button onclick="login()" class="w-full bg-purple-600 p-3 rounded-xl font-bold hover:bg-purple-500">Entrar</button>
     </div>
 
     <div id="dashboard" class="hidden max-w-6xl mx-auto">
@@ -33,57 +33,40 @@
     </div>
 
     <script>
-        // 1. CREDENCIALES
+        // 1. CONFIGURACIÓN
         const USER_ADMIN = "coby"; 
         const PASS_ADMIN = "12345"; 
         
-        // 2. CONEXIÓN (La correcta)
+        // 2. CONEXIÓN (IMPORTANTE: Usa tus claves nuevas tras regenerar)
         const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
-        const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
+        const supabaseKey = 'TU_NUEVA_KEY_PUBLIC_AQUI'; 
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 3. LÓGICA DE LOGIN CON DEPURACIÓN
+        // 3. LOGIN
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
             
-            // Esto imprimirá en la consola F12 qué estás escribiendo
-            console.log("Input Usuario:", u);
-            console.log("Input Pass:", p);
-
             if (u === USER_ADMIN && p === PASS_ADMIN) {
-                console.log("¡Credenciales correctas!");
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboard').classList.remove('hidden');
                 loadRentals();
             } else {
-                console.log("Credenciales incorrectas. Se esperaba: " + USER_ADMIN + " / " + PASS_ADMIN);
-                alert("Usuario o contraseña incorrectos. Revisa la consola (F12).");
+                alert("Usuario o contraseña incorrectos");
             }
         }
 
-        // 4. LÓGICA DE TABLA
+        // 4. TABLA
         async function loadRentals() {
             const { data, error } = await supabase.from('alquileres').select('*');
-            if (error) { console.error("Error al cargar datos:", error); return; }
-            
+            if (error) { console.error("Error:", error); return; }
             const tbody = document.getElementById('rentalTable');
             tbody.innerHTML = '';
-            
             if (data) {
                 data.forEach(r => {
                     const diff = Math.floor((new Date() - new Date(r.start_date)) / (1000 * 60 * 60 * 24));
                     let color = (diff > 27) ? 'bg-red-500' : (diff > 20) ? 'bg-yellow-500' : 'bg-green-500';
-                    tbody.innerHTML += `
-                        <tr class="border-b border-slate-800">
-                            <td class="p-4">${r.client_name}</td>
-                            <td class="p-4">${r.app_name}</td>
-                            <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
-                            <td class="p-4">
-                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs text-black font-bold">WhatsApp</a>
-                            </td>
-                        </tr>
-                    `;
+                    tbody.innerHTML += `<tr><td class="p-4">${r.client_name}</td><td class="p-4">${r.app_name}</td><td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td><td class="p-4"><a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a></td></tr>`;
                 });
             }
         }
@@ -93,7 +76,6 @@
             const phone = document.getElementById('phone').value;
             const app = document.getElementById('appName').value;
             const date = document.getElementById('startDate').value;
-            
             await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
             location.reload();
         }
