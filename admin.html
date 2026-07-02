@@ -33,16 +33,16 @@
     </div>
 
     <script>
-        // CONFIGURACIÓN DE ACCESO
-        const USUARIO_VALIDO = "coby"; 
+        // 1. CONFIGURACIÓN DE ACCESO (Hardcoded)
+        const USUARIO_VALIDO = "admin"; 
         const PASS_VALIDA = "12345"; 
 
-        // CONFIGURACIÓN DE SUPABASE (REEMPLAZA CON TUS DATOS)
-        const supabaseUrl = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2ptbGNkbnJjanJpdXFocHBiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5NDYxOTMsImV4cCI6MjA5ODUyMjE5M30.GIJbvJXKv-QkKx13xrImrUCf-kbRyOapW4QNA83qYb8';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhpY2ptbGNkbnJjanJpdXFocHBiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Mjk0NjE5MywiZXhwIjoyMDk4NTIyMTkzfQ.ZqgWWoNOW0Ew-zmQrJMHhFY5lxLjT6hXraFR_kaduug';
+        // 2. CONFIGURACIÓN ÚNICA DE SUPABASE
+        const supabaseUrl = 'TU_URL_AQUI'; // Cambia esto
+        const supabaseKey = 'TU_KEY_AQUI'; // Cambia esto
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // FUNCIÓN LOGIN (Global para que el botón la encuentre)
+        // 3. FUNCIÓN LOGIN
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
@@ -56,11 +56,11 @@
             }
         }
 
-        // LÓGICA DE DATOS
+        // 4. LÓGICA DE DATOS
         async function loadRentals() {
             const { data } = await supabase.from('alquileres').select('*');
             const tbody = document.getElementById('rentalTable');
-            tbody.innerHTML = '';
+            if (tbody) tbody.innerHTML = '';
             
             if (!data) return;
 
@@ -76,7 +76,7 @@
                         <td class="p-4">${r.app_name}</td>
                         <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">Día ${diff}</span></td>
                         <td class="p-4">
-                            <a href="https://wa.me/${r.phone}?text=Hola ${r.client_name}, tu cuenta de ${r.app_name} vence pronto. ¡Renueva ya!" 
+                            <a href="https://wa.me/${r.phone}?text=Hola ${r.client_name}, tu cuenta de ${r.app_name} vence pronto." 
                                target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs text-black font-bold">Avisar</a>
                         </td>
                     </tr>
@@ -92,9 +92,14 @@
             
             if(!client || !date) return alert("Completa los campos");
             
-            await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
-            alert("Registrado");
-            loadRentals();
+            const { error } = await supabase.from('alquileres').insert([{ client_name: client, phone, app_name: app, start_date: date }]);
+            
+            if(error) {
+                alert("Error al guardar: " + error.message);
+            } else {
+                alert("Registrado correctamente");
+                loadRentals();
+            }
         }
     </script>
 </body>
