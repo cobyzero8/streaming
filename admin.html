@@ -33,18 +33,16 @@
     </div>
 
     <script>
-        // --- LÍNEA DE PRUEBA: Si esto sale en la consola, el archivo está actualizado ---
-    console.log("¡Carga exitosa! El archivo admin.html está actualizado.");
-        // 1. CONFIGURACIÓN ÚNICA
+        // --- 1. CONFIGURACIÓN ---
         const USER_ADMIN = "coby"; 
         const PASS_ADMIN = "12345"; 
         
-        // 2. CONEXIÓN SUPABASE (Datos de tu captura)
+        // --- 2. CONEXIÓN (Solo una vez) ---
         const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
         const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        // 3. FUNCIÓN DE LOGIN
+        // --- 3. LÓGICA LOGIN ---
         function login() {
             const u = document.getElementById('userField').value;
             const p = document.getElementById('passField').value;
@@ -58,10 +56,10 @@
             }
         }
 
-        // 4. LÓGICA DE TABLA
+        // --- 4. LÓGICA DATOS ---
         async function loadRentals() {
             const { data, error } = await supabase.from('alquileres').select('*');
-            if (error) { console.error("Error Supabase:", error); return; }
+            if (error) { console.error("Error:", error); return; }
             
             const tbody = document.getElementById('rentalTable');
             tbody.innerHTML = '';
