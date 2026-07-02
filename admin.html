@@ -21,13 +21,13 @@
             <input type="text" id="clientName" placeholder="Nombre" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
             <input type="text" id="phone" placeholder="Celular" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
             <input type="text" id="appName" placeholder="App" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
-            <input type="date" id="startDate" placeholder="Inicio" class="bg-slate-950 border border-slate-800 p-2 rounded-lg" onchange="autoFillDate()">
-            <input type="date" id="endDate" placeholder="Fin" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
-            <button onclick="addRental()" class="md:col-span-5 bg-emerald-600 p-3 rounded-xl font-bold">Registrar</button>
+            <input type="date" id="startDate" class="bg-slate-950 border border-slate-800 p-2 rounded-lg" onchange="autoFillDate()">
+            <input type="date" id="endDate" class="bg-slate-950 border border-slate-800 p-2 rounded-lg">
+            <button onclick="addRental()" class="md:col-span-5 bg-emerald-600 p-3 rounded-xl font-bold">Registrar Cliente</button>
         </div>
         <table class="w-full text-left border-collapse bg-slate-900 rounded-2xl overflow-hidden">
             <thead class="bg-slate-800 text-slate-400 text-xs uppercase">
-                <tr><th class="p-4">Cliente</th><th class="p-4">App</th><th class="p-4">Inicio</th><th class="p-4">Fin</th><th class="p-4">Faltan</th><th class="p-4">Acción</th></tr>
+                <tr><th class="p-4">Cliente</th><th class="p-4">App</th><th class="p-4">Faltan</th><th class="p-4">Acciones</th></tr>
             </thead>
             <tbody id="rentalTable"></tbody>
         </table>
@@ -36,6 +36,7 @@
     <script>
         const USER_ADMIN = "coby"; 
         const PASS_ADMIN = "12345"; 
+        
         const supabaseUrl = 'https://hicjmlcdnrcjriuqhppb.supabase.co';
         const supabaseKey = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh';
         const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -64,19 +65,39 @@
             if (data) {
                 data.forEach(r => {
                     const end = new Date(r.end_date);
-                    const today = new Date();
-                    const diff = Math.ceil((end - today) / (1000 * 60 * 60 * 24));
+                    const diff = Math.ceil((end - new Date()) / (1000 * 60 * 60 * 24));
                     let color = (diff <= 3) ? 'bg-red-500' : (diff <= 7) ? 'bg-yellow-500' : 'bg-green-500';
                     tbody.innerHTML += `
                         <tr class="border-b border-slate-800">
                             <td class="p-4">${r.client_name}</td>
                             <td class="p-4">${r.app_name}</td>
-                            <td class="p-4 text-xs">${r.start_date}</td>
-                            <td class="p-4 text-xs">${r.end_date}</td>
                             <td class="p-4"><span class="${color} px-2 py-1 rounded text-xs text-black font-bold">${diff} días</span></td>
-                            <td class="p-4"><a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">Avisar</a></td>
+                            <td class="p-4 flex gap-2">
+                                <button onclick="renewRental('${r.id}')" class="bg-blue-600 px-3 py-1 rounded text-xs">Renovar</button>
+                                <button onclick="deleteRental('${r.id}')" class="bg-red-600 px-3 py-1 rounded text-xs">Eliminar</button>
+                                <a href="https://wa.me/${r.phone}" target="_blank" class="bg-emerald-600 px-3 py-1 rounded text-xs">WhatsApp</a>
+                            </td>
                         </tr>`;
                 });
+            }
+        }
+
+        async function renewRental(id) {
+            const newStart = prompt("Ingrese nueva fecha de inicio (AAAA-MM-DD):");
+            if(newStart) {
+                let d = new Date(newStart);
+                d.setDate(d.getDate() + 30);
+                const newEnd = d.toISOString().split('T')[0];
+                
+                await supabase.from('alquileres').update({ start_date: newStart, end_date: newEnd }).eq('id', id);
+                location.reload();
+            }
+        }
+
+        async function deleteRental(id) {
+            if(confirm("¿Seguro que deseas eliminar a este cliente?")) {
+                await supabase.from('alquileres').delete().eq('id', id);
+                location.reload();
             }
         }
 
