@@ -37,17 +37,22 @@
 </div>
 
 <div id="modalEdit" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
-    <div class="bg-slate-900 p-6 rounded-2xl w-full max-w-sm border border-blue-500">
-        <h3 class="font-bold mb-4">Modificar Datos</h3>
+    <div class="bg-slate-900 p-6 rounded-2xl w-full max-w-lg border border-blue-500">
+        <h3 class="font-bold mb-4 text-white">Modificar Todos los Datos</h3>
         <input type="hidden" id="edit_id">
-        <input type="text" id="order_number" class="w-full bg-slate-950 p-2 mb-2 rounded border border-slate-700">
-        <input type="text" id="edit_name" class="w-full bg-slate-950 p-2 mb-4 rounded border border-slate-700">
-        <input type="text" id="edit_phone" class="w-full bg-slate-950 p-2 mb-2 rounded border border-slate-700">
-        <input type="text" id="app_name" class="w-full bg-slate-950 p-2 mb-4 rounded border border-slate-700">
-        <input type="text" id="provider" class="w-full bg-slate-950 p-2 mb-2 rounded border border-slate-700">
-        <input type="text" id="start_date" class="w-full bg-slate-950 p-2 mb-4 rounded border border-slate-700">
-        <input type="text" id="end_date" class="w-full bg-slate-950 p-2 mb-2 rounded border border-slate-700">
-        <div class="flex gap-2"><button onclick="document.getElementById('modalEdit').classList.add('hidden')" class="bg-slate-800 p-2 w-full rounded">Cancelar</button><button onclick="guardarEdicion()" class="bg-blue-600 p-2 w-full rounded">Guardar</button></div>
+        <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="edit_order" placeholder="N° Orden" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_name" placeholder="Nombre" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_phone" placeholder="Celular" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_app" placeholder="App" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_provider" placeholder="Proveedor" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="date" id="edit_start" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="date" id="edit_end" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+        </div>
+        <div class="flex gap-2 mt-4">
+            <button onclick="document.getElementById('modalEdit').classList.add('hidden')" class="flex-1 bg-slate-800 p-2 rounded">Cancelar</button>
+            <button onclick="guardarEdicion()" class="flex-1 bg-blue-600 p-2 rounded">Guardar</button>
+        </div>
     </div>
 </div>
 
@@ -100,21 +105,35 @@
     function abrirModal(id) {
         let alq = alquileres.find(a => a.id == id);
         document.getElementById('edit_id').value = alq.id;
+        document.getElementById('edit_order').value = alq.order_number;
         document.getElementById('edit_name').value = alq.client_name;
         document.getElementById('edit_phone').value = alq.phone;
+        document.getElementById('edit_app').value = alq.app_name;
+        document.getElementById('edit_provider').value = alq.provider;
+        document.getElementById('edit_start').value = alq.start_date;
+        document.getElementById('edit_end').value = alq.end_date;
         document.getElementById('modalEdit').classList.remove('hidden');
     }
 
     async function guardarEdicion() {
         let id = document.getElementById('edit_id').value;
-        await supabaseClient.from('alquileres').update({ 
+        const { error } = await supabaseClient.from('alquileres').update({ 
+            order_number: document.getElementById('edit_order').value,
             client_name: document.getElementById('edit_name').value, 
-            phone: document.getElementById('edit_phone').value 
+            phone: document.getElementById('edit_phone').value,
+            app_name: document.getElementById('edit_app').value,
+            provider: document.getElementById('edit_provider').value,
+            start_date: document.getElementById('edit_start').value,
+            end_date: document.getElementById('edit_end').value
         }).eq('id', id);
-        document.getElementById('modalEdit').classList.add('hidden');
-        cargar();
-    }
 
+        if(!error) {
+            document.getElementById('modalEdit').classList.add('hidden');
+            cargar(); // Recarga la tabla
+        } else {
+            alert("Error: " + error.message);
+        }
+    }
     async function renovar(id) {
         let start = prompt("Nueva fecha inicio (YYYY-MM-DD):");
         if(start) {
