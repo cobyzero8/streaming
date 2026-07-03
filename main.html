@@ -85,39 +85,36 @@
         renderTabla();
     }
 
-    function renderTabla() {
+   function renderTabla() {
     const tbody = document.getElementById('tablaCuerpo');
     const alertas = document.getElementById('alertasContainer');
-    tbody.innerHTML = ''; 
-    alertas.innerHTML = '';
-    const hoy = new Date(); 
-    hoy.setHours(0,0,0,0);
-        
-        alquileres.forEach(alq => {
+    tbody.innerHTML = ''; alertas.innerHTML = '';
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+
+    alquileres.forEach(alq => {
         let fInicio = new Date(alq.start_date + 'T00:00:00');
         let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
         if(diasPasados < 0) diasPasados = 0;
-        if(diasPasados > 30) { eliminarBase(alq.id); return; } // Auto-delete al día 30
+        if(diasPasados > 30) { eliminarBase(alq.id); return; }
 
-        // Lógica de colores según tus reglas (0-23 verde, 24-27 blanco, 28-29 rojo)
         let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
         
-        // Alertas de renovación
         if (diasPasados >= 28) {
             alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
                 <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
                 <div class="flex gap-2">
+                    <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
                     <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
                     <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
                 </div>
             </div>`;
         }
 
-        // Fila de la tabla con las nuevas columnas
         tbody.innerHTML += `<tr>
             <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
             <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
-            <td class="px-4 py-3 text-slate-300">${alq.provider}</td>
             <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
             <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
             <td class="px-4 py-3 text-center">
