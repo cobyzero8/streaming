@@ -104,7 +104,7 @@
             alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
                 <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
                 <div class="flex gap-2">
-                    <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
+                    <a href="https://wa.me/${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
                         WhatsApp
                     </a>
                     <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
