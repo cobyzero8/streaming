@@ -29,24 +29,14 @@
     <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden">
         <table class="w-full text-left">
             <thead class="bg-slate-950 uppercase text-[10px] text-slate-400">
-                <tr><div id="alertasContainer" class="mb-6 space-y-2"></div>
-
-    <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden">
-        <table class="w-full text-left">
-            <thead class="bg-slate-950 uppercase text-[10px] text-slate-400">
                 <tr>
-                   <th class="px-4 py-3">Nombre</th>
+                    <th class="px-4 py-3">Nombre</th>
                     <th class="px-4 py-3">App</th>
                     <th class="px-4 py-3">Proveedor</th>
                     <th class="px-4 py-3">Fechas</th>
                     <th class="px-4 py-3">Estado</th>
                     <th class="px-4 py-3 text-center">Acciones</th> 
                 </tr>
-            </thead>
-            <tbody id="tablaCuerpo" class="divide-y divide-slate-800"></tbody>
-        </table>
-    </section>
-</div></tr>
             </thead>
             <tbody id="tablaCuerpo" class="divide-y divide-slate-800"></tbody>
         </table>
@@ -79,6 +69,11 @@
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let alquileres = [];
 
+    // Función vacía temporal para evitar errores si cambias la fecha de inicio
+    function calcularFin() {
+        // Aquí puedes agregar la lógica para sumar 30 días automáticamente en el futuro
+    }
+
     async function cargar() {
         const { data } = await supabaseClient.from('alquileres').select('*');
         alquileres = data || [];
@@ -104,7 +99,7 @@
                 <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
                 <div class="flex gap-2">
                     <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
+                        WhatsApp
                     </a>
                     <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
                     <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
@@ -112,9 +107,11 @@
             </div>`;
         }
 
+        // JS Corregido: Ahora incluye la celda del proveedor y respeta el orden de las columnas
         tbody.innerHTML += `<tr>
             <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
             <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
+            <td class="px-4 py-3 text-sm text-slate-300">${alq.provider || 'Sin proveedor'}</td>
             <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
             <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
             <td class="px-4 py-3 text-center">
