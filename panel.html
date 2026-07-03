@@ -12,7 +12,6 @@
 <div class="max-w-7xl mx-auto">
     <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500 mb-8">REGISTRO DE ALQUILER</h1>
     
-    <!-- FORMULARIO -->
     <section class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl mb-10">
         <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input type="text" id="order_number" placeholder="N° (Orden)" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
@@ -28,7 +27,6 @@
 
     <div id="alertasContainer" class="mb-6 space-y-2"></div>
 
-    <!-- TABLA -->
     <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden">
         <table class="w-full text-left">
             <thead class="bg-slate-950 uppercase text-[10px] text-slate-400">
@@ -41,7 +39,7 @@
 
 <script>
     const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
-    const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; 
+    const SUPABASE_ANON_KEY = 'TU_NUEVA_LLAVE_AQUI'; 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     let alquileres = [];
 
@@ -69,13 +67,12 @@
             let fInicio = new Date(alq.start_date + 'T00:00:00');
             let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
             if(diasPasados < 0) diasPasados = 0;
-            if(diasPasados > 30) { eliminarBase(alq.id); return; } // Auto-delete
+            if(diasPasados > 30) { eliminarBase(alq.id); return; }
 
             let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
             
             if (diasPasados >= 28) {
-                alertas.innerHTML += `
-                <div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
+                alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
                     <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
                     <div class="flex gap-2">
                         <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
@@ -84,32 +81,44 @@
                 </div>`;
             }
 
-            tbody.innerHTML += `<tr id="row-${alq.id}">
-                <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
+            tbody.innerHTML += `
+            <tr id="row-${alq.id}">
+                <td class="px-4 py-3 font-bold">
+                    <span id="view-name-${alq.id}">${alq.client_name}</span>
+                    <input type="text" id="edit-name-${alq.id}" value="${alq.client_name}" class="hidden bg-slate-950 border border-slate-600 p-1 rounded text-sm w-full">
+                    <br><span class="text-[10px] text-slate-500">${alq.phone}</span>
+                </td>
                 <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
                 <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
                 <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
                 <td class="px-4 py-3 text-center">
-                    <div id="view-${alq.id}">
-                        <button onclick="modoEdicion(${alq.id})" class="text-blue-400 mr-2">Modificar</button>
+                    <div id="btns-view-${alq.id}">
+                        <button onclick="activarEdicion(${alq.id})" class="text-blue-400 mr-2">Modificar</button>
                         <button onclick="eliminarBase(${alq.id})" class="text-red-500">Eliminar</button>
                     </div>
-                    <div id="edit-${alq.id}" class="hidden">
+                    <div id="btns-edit-${alq.id}" class="hidden">
                         <button onclick="guardarEdicion(${alq.id})" class="text-green-400 mr-2">Guardar</button>
-                        <button onclick="modoEdicion(${alq.id})" class="text-slate-400">Cancelar</button>
+                        <button onclick="activarEdicion(${alq.id})" class="text-slate-400">Cancelar</button>
                     </div>
                 </td>
             </tr>`;
         });
     }
 
-    function modoEdicion(id) {
-        document.getElementById(`view-${id}`).classList.toggle('hidden');
-        document.getElementById(`edit-${id}`).classList.toggle('hidden');
+    function activarEdicion(id) {
+        document.getElementById(`view-name-${id}`).classList.toggle('hidden');
+        document.getElementById(`edit-name-${id}`).classList.toggle('hidden');
+        document.getElementById(`btns-view-${id}`).classList.toggle('hidden');
+        document.getElementById(`btns-edit-${id}`).classList.toggle('hidden');
+    }
+
+    async function guardarEdicion(id) {
+        let nuevoNombre = document.getElementById(`edit-name-${id}`).value;
+        await supabaseClient.from('alquileres').update({ client_name: nuevoNombre }).eq('id', id);
+        cargar();
     }
 
     async function renovar(id) {
-        let alq = alquileres.find(a => a.id === id);
         let newStart = prompt("Ingresa la nueva fecha de inicio (YYYY-MM-DD):", new Date().toISOString().split('T')[0]);
         if(newStart) {
             let date = new Date(newStart + 'T00:00:00');
@@ -120,8 +129,10 @@
     }
 
     async function eliminarBase(id) {
-        await supabaseClient.from('alquileres').delete().eq('id', id);
-        cargar();
+        if(confirm('¿Eliminar este registro?')) {
+            await supabaseClient.from('alquileres').delete().eq('id', id);
+            cargar();
+        }
     }
 
     document.getElementById('registroForm').addEventListener('submit', async function(e) {
