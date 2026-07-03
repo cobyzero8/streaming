@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso StreamZone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 flex items-center justify-center h-screen">
+
+    <div class="bg-slate-900 p-8 rounded-2xl border border-slate-800 w-full max-w-sm shadow-2xl">
+        <h2 class="text-2xl font-bold text-white mb-6 text-center">Acceso al Sistema</h2>
+        
+        <div class="space-y-4">
+            <input type="password" id="password" placeholder="Contraseña de acceso" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-lg px-4 py-3 text-white focus:border-purple-500 outline-none">
+            
+            <button onclick="verificarAcceso()" 
+                class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-lg transition-all">
+                INGRESAR
+            </button>
+        </div>
+        <p id="errorMsg" class="text-red-500 text-xs mt-4 text-center hidden">Contraseña incorrecta</p>
+    </div>
+
+    <script>
+        function verificarAcceso() {
+            const pass = document.getElementById('password').value;
+            // CAMBIA 'TU_CLAVE_AQUI' POR TU CONTRASEÑA REAL
+            const claveCorrecta = "19902101"; 
+
+            if (pass === claveCorrecta) {
+                localStorage.setItem('streamzone_auth', 'autenticado');
+                window.location.href = 'main.html';
+            } else {
+                document.getElementById('errorMsg').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
