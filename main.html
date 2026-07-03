@@ -16,7 +16,7 @@
             <input type="text" id="order_number" placeholder="N° (Orden)" readonly required class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-400 font-bold cursor-not-allowed">
             <input type="text" id="client_name" placeholder="Nombre y Apellido" required class="md:col-span-2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
             <input type="text" id="phone" placeholder="Celular" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-            <select id="app_name" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"><option value="Netflix">Netflix</option><option value="HBO">HBO</option><option value="Movistar play">Movistar play</option><option value="DGO">DGO</option><option value="Paramount">Paramount</option><option value="IPTV">IPTV</option><option value="Youtube">Youtube</option><option value="Prime Video">Prime Video</option><option value="Crunchyroll">crunchyroll</option><option value="Disney+">Disney+</option><option value="Max">Max</option></select>
+            <select id="app_name" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"><option value="Netflix">Netflix</option><option value="Disney+">Disney+</option><option value="Max">Max</option></select>
             <input type="text" id="provider" placeholder="Proveedor" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
             <input type="date" id="start_date" required onchange="calcularFin()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
             <input type="date" id="end_date" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-emerald-400 font-bold">
@@ -75,10 +75,14 @@
     }
 
     async function cargar() {
-        const { data } = await supabaseClient.from('alquileres').select('*').order('order_number', { ascending: false });
+        // Traemos los datos limpios de Supabase
+        const { data } = await supabaseClient.from('alquileres').select('*');
         alquileres = data || [];
         
-        // CAMBIO: Asigna automáticamente el siguiente número correlativo al formulario
+        // SOLUCIÓN: Ordenamiento numérico forzado de Mayor a Menor (Descendente) en JavaScript
+        alquileres.sort((a, b) => (parseInt(b.order_number) || 0) - (parseInt(a.order_number) || 0));
+        
+        // Calcula el siguiente número basándose de forma segura en el conteo total
         document.getElementById('order_number').value = alquileres.length + 1;
         
         renderTabla();
@@ -94,8 +98,6 @@
         let fInicio = new Date(alq.start_date + 'T00:00:00');
         let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
         if(diasPasados < 0) diasPasados = 0;
-        
-        // CAMBIO: Si se borra por cumplir más de 30 días, se envía 'true' para que no pida confirmación interna
         if(diasPasados > 30) { eliminarBase(alq.id, true); return; }
 
         let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
@@ -154,7 +156,6 @@
         if(!error) { document.getElementById('modalEdit').classList.add('hidden'); cargar(); }
     }
 
-    // CAMBIO: Nueva función de eliminación con re-indexación automática en cascada
     async function eliminarBase(id, esAutomatico = false) { 
         if(esAutomatico || confirm('¿Seguro que deseas eliminar este registro?')) { 
             const alqEliminar = alquileres.find(a => a.id == id);
@@ -162,13 +163,10 @@
             
             const numeroEliminado = parseInt(alqEliminar.order_number) || 0;
 
-            // 1. Eliminamos el registro solicitado de Supabase
             await supabaseClient.from('alquileres').delete().eq('id', id); 
 
-            // 2. Buscamos todos los registros que tenían un número mayor para restales 1
             const paraActualizar = alquileres.filter(a => a.id !== id && (parseInt(a.order_number) || 0) > numeroEliminado);
             
-            // 3. Ejecutamos las actualizaciones en la base de datos simultáneamente
             const promesas = paraActualizar.map(a => 
                 supabaseClient.from('alquileres')
                     .update({ order_number: ((parseInt(a.order_number) || 0) - 1).toString() })
