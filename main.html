@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel StreamZone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 p-6">
+
+<div class="max-w-7xl mx-auto">
+    <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500 mb-8">REGISTRO DE ALQUILER</h1>
+    
+    <section class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl mb-10">
+        <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="text" id="order_number" placeholder="N° (Orden)" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            <input type="text" id="client_name" placeholder="Nombre y Apellido" required class="md:col-span-2 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            <input type="text" id="phone" placeholder="Celular" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            <select id="app_name" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm"><option value="Netflix">Netflix</option><option value="Disney+">Disney+</option><option value="Max">Max</option></select>
+            <input type="text" id="provider" placeholder="Proveedor" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+            <input type="date" id="start_date" required onchange="calcularFin()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
+            <input type="date" id="end_date" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-emerald-400 font-bold">
+            <button type="submit" class="md:col-span-4 bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl">REGISTRAR ALQUILER</button>
+        </form>
+    </section>
+
+    <div id="alertasContainer" class="mb-6 space-y-2"></div>
+
+    <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-slate-950 uppercase text-[10px] text-slate-400">
+                <tr><div id="alertasContainer" class="mb-6 space-y-2"></div>
+
+    <section class="bg-slate-900/60 border border-slate-800 rounded-2xl overflow-hidden">
+        <table class="w-full text-left">
+            <thead class="bg-slate-950 uppercase text-[10px] text-slate-400">
+                <tr>
+                   <th class="px-4 py-3">Nombre</th>
+                    <th class="px-4 py-3">App</th>
+                    <th class="px-4 py-3">Proveedor</th>
+                    <th class="px-4 py-3">Fechas</th>
+                    <th class="px-4 py-3">Estado</th>
+                    <th class="px-4 py-3 text-center">Acciones</th> 
+                </tr>
+            </thead>
+            <tbody id="tablaCuerpo" class="divide-y divide-slate-800"></tbody>
+        </table>
+    </section>
+</div></tr>
+            </thead>
+            <tbody id="tablaCuerpo" class="divide-y divide-slate-800"></tbody>
+        </table>
+    </section>
+</div>
+
+<div id="modalEdit" class="fixed inset-0 bg-black/80 hidden items-center justify-center z-50 p-4">
+    <div class="bg-slate-900 p-6 rounded-2xl w-full max-w-lg border border-blue-500">
+        <h3 class="font-bold mb-4 text-white">Modificar Alquiler</h3>
+        <input type="hidden" id="edit_id">
+        <div class="grid grid-cols-2 gap-3">
+            <input type="text" id="edit_order" placeholder="N° Orden" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_name" placeholder="Nombre" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_phone" placeholder="Celular" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_app" placeholder="App" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="text" id="edit_provider" placeholder="Proveedor" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="date" id="edit_start" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+            <input type="date" id="edit_end" class="bg-slate-950 p-2 rounded border border-slate-700 text-sm">
+        </div>
+        <div class="flex gap-2 mt-4">
+            <button onclick="document.getElementById('modalEdit').classList.add('hidden')" class="flex-1 bg-slate-800 p-2 rounded">Cancelar</button>
+            <button onclick="guardarEdicion()" class="flex-1 bg-blue-600 p-2 rounded">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://hicjmlcdnrcjriuqhppb.supabase.co'; 
+    const SUPABASE_ANON_KEY = 'sb_publishable_CaDktAOkfY4jMUv5LITprQ_ZDd7KNrh'; 
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let alquileres = [];
+
+    async function cargar() {
+        const { data } = await supabaseClient.from('alquileres').select('*');
+        alquileres = data || [];
+        renderTabla();
+    }
+
+   function renderTabla() {
+    const tbody = document.getElementById('tablaCuerpo');
+    const alertas = document.getElementById('alertasContainer');
+    tbody.innerHTML = ''; alertas.innerHTML = '';
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+
+    alquileres.forEach(alq => {
+        let fInicio = new Date(alq.start_date + 'T00:00:00');
+        let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
+        if(diasPasados < 0) diasPasados = 0;
+        if(diasPasados > 30) { eliminarBase(alq.id); return; }
+
+        let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
+        
+        if (diasPasados >= 28) {
+            alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
+                <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
+                <div class="flex gap-2">
+                    <a href="https://wa.me/51${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                    <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
+                    <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
+                </div>
+            </div>`;
+        }
+
+        tbody.innerHTML += `<tr>
+            <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
+            <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
+            <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
+            <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
+            <td class="px-4 py-3 text-center">
+                <button onclick="abrirModal(${alq.id})" class="text-blue-400">Modificar</button>
+                <button onclick="eliminarBase(${alq.id})" class="text-red-500 ml-2">Eliminar</button>
+            </td>
+        </tr>`;
+    });
+}
+
+    function abrirModal(id) {
+        let alq = alquileres.find(a => a.id == id);
+        document.getElementById('edit_id').value = alq.id;
+        document.getElementById('edit_order').value = alq.order_number;
+        document.getElementById('edit_name').value = alq.client_name;
+        document.getElementById('edit_phone').value = alq.phone;
+        document.getElementById('edit_app').value = alq.app_name;
+        document.getElementById('edit_provider').value = alq.provider;
+        document.getElementById('edit_start').value = alq.start_date;
+        document.getElementById('edit_end').value = alq.end_date;
+        document.getElementById('modalEdit').classList.remove('hidden');
+    }
+
+    async function guardarEdicion() {
+        let id = document.getElementById('edit_id').value;
+        const { error } = await supabaseClient.from('alquileres').update({ 
+            order_number: document.getElementById('edit_order').value,
+            client_name: document.getElementById('edit_name').value, 
+            phone: document.getElementById('edit_phone').value,
+            app_name: document.getElementById('edit_app').value,
+            provider: document.getElementById('edit_provider').value,
+            start_date: document.getElementById('edit_start').value,
+            end_date: document.getElementById('edit_end').value
+        }).eq('id', id);
+        if(!error) { document.getElementById('modalEdit').classList.add('hidden'); cargar(); }
+    }
+
+    async function eliminarBase(id) { if(confirm('¿Seguro?')) { await supabaseClient.from('alquileres').delete().eq('id', id); cargar(); } }
+
+    document.getElementById('registroForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await supabaseClient.from('alquileres').insert([{
+            order_number: document.getElementById('order_number').value,
+            client_name: document.getElementById('client_name').value,
+            phone: document.getElementById('phone').value,
+            app_name: document.getElementById('app_name').value,
+            provider: document.getElementById('provider').value,
+            start_date: document.getElementById('start_date').value,
+            end_date: document.getElementById('end_date').value
+        }]);
+        this.reset(); cargar();
+    });
+
+    cargar();
+</script>
+</body>
+</html>
