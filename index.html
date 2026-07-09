@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multistreaming Perú | Centro de Activación Digital</title>
-    <!-- Tailwind CSS para diseño moderno y rápido -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Iconos profesionales FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .glow-effect {
@@ -44,7 +42,6 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-24 sm:pb-0">
 
-    <!-- MODAL EXPLICATIVO DE 3 PASOS (DURACIÓN: 10 SEGUNDOS) -->
     <div id="funnelStepsModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
         <div class="bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-amber-500/80 p-6 sm:p-8 rounded-3xl max-w-lg w-full text-center relative overflow-hidden shadow-2xl shadow-black/90 scale-95 transition-transform duration-300">
             
@@ -54,17 +51,14 @@
             <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Tu Camino de Activación Seguro</h3>
             <p class="text-xs text-slate-400 mt-1">Por favor lee atentamente los 3 pasos obligatorios para iniciar con éxito:</p>
 
-            <!-- Cronología de Pasos -->
             <div class="mt-6 space-y-3.5 text-left">
-                <!-- Paso 1 -->
                 <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
                     <div class="w-7 h-7 bg-red-600 text-white rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">1</div>
                     <div>
                         <h4 class="text-xs font-black uppercase text-red-400 tracking-wider">Primero pagas la membresía</h4>
-                        <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Realizas el abono único promocional de S/. 8.00 mediante Yape, Plin o PayPal.</p>
+                        <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Realizas el abono único promocional de S/. 5.00 mediante Yape, Plin o PayPal.</p>
                     </div>
                 </div>
-                <!-- Paso 2 -->
                 <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
                     <div class="w-7 h-7 bg-purple-600 text-white rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">2</div>
                     <div>
@@ -72,7 +66,6 @@
                         <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Creas tu usuario encriptado en el portal oficial externo copiando de forma obligatoria tu código promocional.</p>
                     </div>
                 </div>
-                <!-- Paso 3 -->
                 <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
                     <div class="w-7 h-7 bg-emerald-600 text-slate-950 rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">3</div>
                     <div>
@@ -87,12 +80,10 @@
                 <span><i class="fas fa-bolt text-yellow-400 mr-1"></i> Soporte Postventa</span>
             </div>
 
-            <!-- Barra de Cierre de Tiempo Automático (10 Segundos) -->
             <div class="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-yellow-500 via-amber-400 to-amber-500 animate-progress-bar"></div>
         </div>
     </div>
 
-    <!-- MENSAJE FLOTANTE CENTRAL DE ALTA PRIORIDAD -->
     <div id="toastNotification" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-900/98 backdrop-blur-lg border-2 border-yellow-500 p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/80 z-50 opacity-0 scale-95 pointer-events-none transition-all duration-300 flex flex-col items-center text-center max-w-md w-[92%]">
         <div class="w-16 h-16 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl shrink-0 border border-yellow-500/30 mb-4 shadow-lg shadow-yellow-500/5">
             <i class="fas fa-gift animate-bounce"></i>
@@ -113,99 +104,125 @@
         </div>
     </div>
 
-    <!-- BIENVENIDA FLOTANTE DE INICIO -->
     <div id="welcomeModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity duration-500">
         <div class="bg-slate-900 border border-purple-500/30 p-6 sm:p-8 rounded-3xl max-w-md w-full text-center relative overflow-hidden shadow-2xl shadow-purple-950/20 transform scale-100 transition-transform duration-500">
-            <div class="w-16 h-16 bg-gradient-to-tr from-purple-600 to-red-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-5 shadow-lg">
+            <div class="absolute -top-12 -left-12 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
+            <div class="absolute -bottom-12 -right-12 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl"></div>
+
+            <div class="w-16 h-16 bg-gradient-to-tr from-purple-600 to-red-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-5 shadow-lg shadow-purple-500/20">
                 <i class="fas fa-rocket animate-pulse"></i>
             </div>
+
             <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
                 ¡Bienvenido a <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-400">StreamZone</span>!
             </h2>
             <p class="text-sm text-slate-300 mt-4 leading-relaxed">Estás a un paso de acceder al mejor ecosistema de **cuentas premium** de streaming en el Perú.</p>
+
             <div class="my-5 p-4 bg-purple-950/40 border border-purple-500/20 rounded-xl">
                 <p class="text-xs text-purple-300 font-semibold leading-relaxed">💡 Aquí podrás **comprar cuentas estables** para tu uso personal o **inscribirte como socio** para revender y generar ingresos extras todos los meses.</p>
             </div>
+
             <button onclick="startExperience()" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-slate-950 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 rounded-xl shadow-xl hover:brightness-110 transform active:scale-95 transition-all uppercase tracking-wider text-sm">
                 <i class="fas fa-play-circle mr-2 text-lg"></i> Ver Video y Desbloquear Opciones
             </button>
         </div>
     </div>
 
-    <!-- Barra de Navegación Superior -->
+    <div class="fixed bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-yellow-500/40 p-3 rounded-xl shadow-2xl z-40 flex items-center gap-3 animate-float-custom max-w-[280px] sm:max-w-xs">
+        <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-lg flex items-center justify-center text-lg shrink-0 border border-yellow-500/20">
+            <i class="fas fa-gift animate-pulse"></i>
+        </div>
+        <div>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Código Obligatorio</p>
+            <p class="text-sm font-black text-yellow-400 tracking-wider">HLHOF77964</p>
+        </div>
+    </div>
+
+    <a href="https://wa.me/51995500589?text=Hola!%20Vengo%20de%20tu%20p%C3%A1gina%20web%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n." 
+       target="_blank" 
+       class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-40 animate-bounce">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
                 <span class="text-base sm:text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-500 to-blue-500">STREAMZONE</span>
             </div>
+            
             <div class="flex items-center space-x-1.5 sm:space-x-3">
                 <button onclick="navRegister()" class="text-[11px] sm:text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-full font-bold transition-all shadow-md active:scale-95">Inscribirse</button>
                 <a href="https://wa.me/51995500589" target="_blank" class="text-[11px] sm:text-xs bg-slate-900 border border-slate-800 text-slate-300 px-2.5 py-1.5 rounded-full font-bold flex items-center gap-1">
                     <i class="fas fa-headset text-purple-400"></i> <span>Soporte</span>
                 </a>
+                <a href="login.html" class="text-[11px] sm:text-xs bg-gradient-to-r from-red-600 to-rose-600 text-white px-3 py-1.5 rounded-full font-bold flex items-center gap-1">
+                    <i class="fas fa-sign-in-alt"></i> <span>COBY ENTRA</span>
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION CENTRAL -->
     <header class="max-w-4xl mx-auto text-center px-4 pt-12 pb-12 relative">
         <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
             Cuentas Premium de Streaming <br>
             <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-blue-500">Al Alcance de Todos</span>
         </h1>
+        <p class="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-medium">Ahorra en entretenimiento o monta tu propio negocio digital hoy mismo.</p>
+
         <div class="mt-10 max-w-2xl mx-auto bg-slate-900 border border-red-500/40 p-3 sm:p-4 rounded-3xl shadow-2xl relative">
             <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-amber-500 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg z-10 flex items-center gap-1.5">
                 <i class="fas fa-lock-open animate-pulse"></i> PASO 1: MIRA ESTE VIDEO INFORMATIVO
             </div>
+
             <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
                 <video id="mainVideo" class="absolute top-0 left-0 w-full h-full object-contain bg-black" controls playsinline preload="metadata">
                     <source src="video_principal.mp4" type="video/mp4">
                 </video>
             </div>
+
             <div class="mt-4">
-                <button onclick="document.getElementById('funnelStepsModal').style.pointerEvents='auto'; mostrarMensajeFidelizacion3Pasos()" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm sm:text-base font-black text-slate-950 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-xl uppercase tracking-wider animate-pulse">
+                <button onclick="mostrarMensajeFidelizacion3Pasos()" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm sm:text-base font-black text-slate-950 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-xl hover:brightness-105 transform active:scale-95 transition-all uppercase tracking-wider animate-pulse">
                     <i class="fas fa-user-plus mr-2 text-lg"></i> He visto el video, ahora quiero inscribirme
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- SECCIÓN DESBLOQUEADA DE OPCIONES -->
     <div id="unlockedHubContent" class="hidden fade-in-section">
         <section id="optionsPanel" class="max-w-6xl mx-auto px-4 py-8 scroll-mt-20">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">¿Qué deseas hacer el día de hoy?</h2>
+            </div>
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-                <!-- Opción 1: Pagar -->
-                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-xl group">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-red-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-red-950/50 text-red-400 rounded-xl flex items-center justify-center text-lg mb-3"><i class="fas fa-credit-card"></i></div>
+                        <div class="w-11 h-11 bg-red-950/50 text-red-400 rounded-xl flex items-center justify-center text-lg border border-red-900/30 mb-3"><i class="fas fa-credit-card"></i></div>
                         <h3 class="text-base font-bold text-white">1. Realizar Pago</h3>
-                        <p class="text-xs text-slate-400 mt-2">Abona tu membresía de S/. 8.00 mediante Yape, Plin o PayPal.</p>
+                        <p class="text-xs text-slate-400 mt-2">Abona tu membresía de S/. 5.00 mediante Yape, Plin o PayPal.</p>
                     </div>
                     <button onclick="revealSection('checkoutSocios')" class="mt-5 w-full text-center text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 text-white py-2.5 rounded-xl uppercase">Pagar Membresía</button>
                 </div>
-                <!-- Opción 2: Registrarme -->
-                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-xl group">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-purple-950/50 text-purple-400 rounded-xl flex items-center justify-center text-lg mb-3"><i class="fas fa-user-plus"></i></div>
+                        <div class="w-11 h-11 bg-purple-950/50 text-purple-400 rounded-xl flex items-center justify-center text-lg border border-purple-900/30 mb-3"><i class="fas fa-user-plus"></i></div>
                         <h3 class="text-base font-bold text-white">2. Registrarme</h3>
                         <p class="text-xs text-slate-400 mt-2">Completa tu formulario oficial de alta con tus datos.</p>
                     </div>
                     <button onclick="revealSection('registroUsuario')" class="mt-5 w-full text-center text-xs font-black bg-purple-600 text-white py-2.5 rounded-xl uppercase">Crear mi Perfil</button>
                 </div>
-                <!-- Opción 3: Catálogo -->
-                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-xl group">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-emerald-950/50 text-emerald-400 rounded-xl flex items-center justify-center text-lg mb-3"><i class="fas fa-shopping-bag"></i></div>
+                        <div class="w-11 h-11 bg-emerald-950/50 text-emerald-400 rounded-xl flex items-center justify-center text-lg border border-emerald-900/30 mb-3"><i class="fas fa-shopping-bag"></i></div>
                         <h3 class="text-base font-bold text-white">3. Comprar para Mí</h3>
                         <p class="text-xs text-slate-400 mt-2">Despliega el catálogo de precios minoristas.</p>
                     </div>
                     <button onclick="revealSection('catalogoProductos')" class="mt-5 w-full text-center text-xs font-black bg-emerald-600 text-slate-950 py-2.5 rounded-xl uppercase">Ver Catálogo</button>
                 </div>
-                <!-- Opción 4: Soporte -->
-                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between shadow-xl group">
+                <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-lg mb-3"><i class="fas fa-headset"></i></div>
+                        <div class="w-11 h-11 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-lg border border-indigo-900/30 mb-3"><i class="fas fa-headset"></i></div>
                         <h3 class="text-base font-bold text-white">4. Soporte Técnico</h3>
                         <p class="text-xs text-slate-400 mt-2">Asistencia técnica personalizada directa.</p>
                     </div>
@@ -213,7 +230,6 @@
                 </div>
             </div>
 
-            <!-- SECCIÓN 1: FORMULARIO DE PAGO PARA SOCIOS (PRECIO ACTUALIZADO A S/. 8.00) -->
             <div id="checkoutSocios" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/30 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 fade-in-section">
                 <div class="text-center">
                     <span class="text-[10px] font-black bg-red-950 text-red-400 border border-red-900/50 px-2.5 py-1 rounded-md uppercase">Pago Único - Promoción Limitada</span>
@@ -222,7 +238,7 @@
                 <div class="my-6 py-4 bg-slate-950/80 rounded-2xl border border-slate-800 flex flex-col justify-center items-center gap-1">
                     <div class="flex items-center justify-center gap-2.5 flex-wrap">
                         <span class="text-xs text-emerald-400 font-bold uppercase">Precio Especial:</span>
-                        <span class="text-3xl font-black text-emerald-400">S/. 8.00</span>
+                        <span class="text-3xl font-black text-emerald-400">S/. 5.00</span>
                         <span class="text-slate-500 text-xl font-bold">/</span>
                         <span class="inline-flex items-center gap-1.5 bg-blue-950/60 border border-blue-500/30 px-3 py-1 rounded-xl text-sm font-black text-blue-400">
                             <i class="fab fa-paypal text-blue-500 text-xs"></i> <span id="paypalUsdLabel">Cargando...</span>
@@ -234,12 +250,11 @@
                     <p class="text-slate-400">PayPal: <a href="https://www.paypal.com/paypalme/app2026" target="_blank" class="text-blue-400 underline font-bold">paypal.me/app2026</a></p>
                     <p class="text-slate-400">Titular: <span class="text-white font-bold">Armando Viv</span></p>
                 </div>
-                <a href="https://wa.me/51995500589?text=Hola!%20Acabo%20de%20ver%20el%20video%20y%20quiero%20registrarme%20como%20Socio.%20Adjunto%20mi%20comprobante%20de%20S/.%208.00%20pesos." target="_blank" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-white brand-gradient rounded-xl uppercase text-sm shadow-xl">
+                <a href="https://wa.me/51995500589?text=Hola!%20Acabo%20de%20ver%20el%20video%20y%20quiero%20registrarme%20como%20Socio.%20Adjunto%20mi%20comprobante." target="_blank" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-white brand-gradient rounded-xl uppercase text-sm shadow-xl">
                     <i class="fab fa-whatsapp mr-2 text-lg"></i> Enviar Comprobante de Registro
                 </a>
             </div>
 
-            <!-- SECCIÓN 2: PORTAL DE REGISTRO CON COPIADO -->
             <div id="registroUsuario" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/40 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 text-center fade-in-section">
                 <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Portal de Registro Externo Seguro</h3>
                 <div class="my-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs sm:text-sm text-yellow-400 font-bold">
@@ -250,30 +265,38 @@
                 </button>
             </div>
 
-            <!-- SECCIONES 3 Y 4 -->
-            <div id="catalogoProductos" class="hidden fade-in-section mb-16"></div>
-            <div id="centroSoporte" class="hidden fade-in-section mb-16"></div>
+            <div id="catalogoProductos" class="hidden fade-in-section mb-16">
+                </div>
+
+            <div id="centroSoporte" class="hidden fade-in-section mb-16">
+                </div>
         </section>
     </div>
 
-    <!-- LÓGICA JAVASCRIPT RE-CALCULADA -->
     <script>
+        // LÓGICA DE TRABAJO EN EMBUDO DE 10 SEGUNDOS (SOLICITADO)
         function mostrarMensajeFidelizacion3Pasos() {
             const modal = document.getElementById('funnelStepsModal');
+            
+            // Hacer visible el modal con la cronología de pasos
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.querySelector('div').classList.remove('scale-95');
             modal.querySelector('div').classList.add('scale-100', 'opacity-100');
 
+            // Después de cumplirse los 10 segundos exactos (10000ms), se autoejecuta el unlock del Hub
             setTimeout(() => {
+                // Cerrar modal
                 modal.classList.add('opacity-0', 'pointer-events-none');
                 modal.querySelector('div').classList.add('scale-95');
+                
+                // Desbloquear opciones principales y scroll automático abajo
                 unlockHub();
             }, 10000);
         }
 
-        // Conversor recalculado para S/. 8.00 nuevos soles
+        // Lógica de conversión de cambio de moneda (Soles a Dólares)
         function iniciarCambioMonedaPeru() {
-            const solesMonto = 8.00; // COSTO MODIFICADO A S/. 8.00
+            const solesMonto = 5.00;
             let tasaRespaldo = 3.40;
             fetch('https://open.er-api.com/v6/latest/USD')
                 .then(res => res.json())
