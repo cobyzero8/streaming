@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multistreaming Perú | Centro de Activación Digital</title>
-    <!-- Tailwind CSS para diseño moderno y rápido -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Iconos profesionales FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .glow-effect {
@@ -32,11 +30,60 @@
             opacity: 1;
             transform: translateY(0);
         }
+        /* Animación para la barra de progreso de 10 segundos */
+        @keyframes shrinkProgress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+        .animate-progress-bar {
+            animation: shrinkProgress 10s linear forwards;
+        }
     </style>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-24 sm:pb-0">
 
-    <!-- MENSAJE FLOTANTE CENTRAL DE ALTA PRIORIDAD -->
+    <div id="funnelStepsModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-amber-500/80 p-6 sm:p-8 rounded-3xl max-w-lg w-full text-center relative overflow-hidden shadow-2xl shadow-black/90 scale-95 transition-transform duration-300">
+            
+            <div class="w-14 h-14 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-3 border border-amber-500/20">
+                <i class="fas fa-route animate-pulse"></i>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Tu Camino de Activación Seguro</h3>
+            <p class="text-xs text-slate-400 mt-1">Por favor lee atentamente los 3 pasos obligatorios para iniciar con éxito:</p>
+
+            <div class="mt-6 space-y-3.5 text-left">
+                <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <div class="w-7 h-7 bg-red-600 text-white rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">1</div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-red-400 tracking-wider">Primero pagas la membresía</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Realizas el abono único promocional de S/. 5.00 mediante Yape, Plin o PayPal.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <div class="w-7 h-7 bg-purple-600 text-white rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">2</div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-purple-400 tracking-wider">Luego te registras</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Creas tu usuario encriptado en el portal oficial externo copiando de forma obligatoria tu código promocional.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+                    <div class="w-7 h-7 bg-emerald-600 text-slate-950 rounded-lg flex items-center justify-center text-xs font-black shrink-0 shadow-md">3</div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase text-emerald-400 tracking-wider">Escribes al WhatsApp</h4>
+                        <p class="text-[11px] sm:text-xs text-slate-300 mt-0.5">Una vez registrado en la página, me envías un mensaje para continuar con la habilitación inmediata de tu usuario en la plataforma Zodiak.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-5 flex justify-center items-center gap-4 text-[10px] text-slate-500 font-bold uppercase">
+                <span><i class="fas fa-check-shield text-emerald-500 mr-1"></i> Sistema Verificado</span>
+                <span><i class="fas fa-bolt text-yellow-400 mr-1"></i> Soporte Postventa</span>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1.5 bg-gradient-to-r from-yellow-500 via-amber-400 to-amber-500 animate-progress-bar"></div>
+        </div>
+    </div>
+
     <div id="toastNotification" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-900/98 backdrop-blur-lg border-2 border-yellow-500 p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/80 z-50 opacity-0 scale-95 pointer-events-none transition-all duration-300 flex flex-col items-center text-center max-w-md w-[92%]">
         <div class="w-16 h-16 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl shrink-0 border border-yellow-500/30 mb-4 shadow-lg shadow-yellow-500/5">
             <i class="fas fa-gift animate-bounce"></i>
@@ -45,24 +92,18 @@
             <p class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> ¡CÓDIGO COPIADO CON ÉXITO!
             </p>
-            
-            <!-- Visualizador Premium del Código -->
             <div class="my-3 bg-slate-950/90 px-5 py-2 rounded-xl border border-slate-800/80 inline-block shadow-inner">
                 <p class="text-xl text-yellow-400 font-mono font-black tracking-widest">HLHOF77964</p>
             </div>
-            
-            <!-- Mensaje de instrucción -->
             <p class="text-sm sm:text-base text-slate-100 mt-2 leading-relaxed font-bold max-w-xs mx-auto">
                 ⚠️ Este código debes pegar en donde dice <span class="text-yellow-400 underline decoration-2 font-black">código de tu referido</span> de manera obligatoria y ¡llévate grandes sorpresas!
             </p>
-            
             <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium">
                 <i class="fas fa-circle-notch animate-spin text-purple-500"></i> Abriendo portal externo seguro...
             </div>
         </div>
     </div>
 
-    <!-- BIENVENIDA FLOTANTE DE INICIO (OVERLAY DE ENTRADA) -->
     <div id="welcomeModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity duration-500">
         <div class="bg-slate-900 border border-purple-500/30 p-6 sm:p-8 rounded-3xl max-w-md w-full text-center relative overflow-hidden shadow-2xl shadow-purple-950/20 transform scale-100 transition-transform duration-500">
             <div class="absolute -top-12 -left-12 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
@@ -75,20 +116,11 @@
             <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">
                 ¡Bienvenido a <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-400">StreamZone</span>!
             </h2>
-            
-            <p class="text-sm text-slate-300 mt-4 leading-relaxed">
-                Estás a un paso de acceder al mejor ecosistema de **cuentas premium** de streaming en el Perú. 
-            </p>
+            <p class="text-sm text-slate-300 mt-4 leading-relaxed">Estás a un paso de acceder al mejor ecosistema de **cuentas premium** de streaming en el Perú.</p>
 
             <div class="my-5 p-4 bg-purple-950/40 border border-purple-500/20 rounded-xl">
-                <p class="text-xs text-purple-300 font-semibold leading-relaxed">
-                    💡 Aquí podrás **comprar cuentas estables** para tu uso personal o **inscribirte como socio** para revender y generar ingresos extras todos los meses.
-                </p>
+                <p class="text-xs text-purple-300 font-semibold leading-relaxed">💡 Aquí podrás **comprar cuentas estables** para tu uso personal o **inscribirte como socio** para revender y generar ingresos extras todos los meses.</p>
             </div>
-
-            <p class="text-xs text-slate-400 mb-6">
-                Mira el video de presentación corto para conocer la plataforma y desbloquear las opciones de inmediato.
-            </p>
 
             <button onclick="startExperience()" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-slate-950 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 rounded-xl shadow-xl hover:brightness-110 transform active:scale-95 transition-all uppercase tracking-wider text-sm">
                 <i class="fas fa-play-circle mr-2 text-lg"></i> Ver Video y Desbloquear Opciones
@@ -96,7 +128,6 @@
         </div>
     </div>
 
-    <!-- MENSAJE FLOTANTE EN PARTE INFERIOR IZQUIERDA -->
     <div class="fixed bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-yellow-500/40 p-3 rounded-xl shadow-2xl z-40 flex items-center gap-3 animate-float-custom max-w-[280px] sm:max-w-xs">
         <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-lg flex items-center justify-center text-lg shrink-0 border border-yellow-500/20">
             <i class="fas fa-gift animate-pulse"></i>
@@ -104,341 +135,190 @@
         <div>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Código Obligatorio</p>
             <p class="text-sm font-black text-yellow-400 tracking-wider">HLHOF77964</p>
-            <p class="text-[11px] text-slate-300 mt-0.5 leading-tight">Úsalo al registrarte para activar tu descuento.</p>
         </div>
     </div>
 
-    <!-- BOTÓN FLOTANTE DE WHATSAPP -->
     <a href="https://wa.me/51995500589?text=Hola!%20Vengo%20de%20tu%20p%C3%A1gina%20web%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n." 
        target="_blank" 
-       class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-40 animate-bounce"
-       title="Chatea con nosotros">
+       class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-40 animate-bounce">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Barra de Navegación Superior -->
     <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
-                <span class="text-base sm:text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-500 to-blue-500">
-                    STREAMZONE
-                </span>
+                <span class="text-base sm:text-xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-500 to-blue-500">STREAMZONE</span>
             </div>
             
             <div class="flex items-center space-x-1.5 sm:space-x-3">
-                <span class="hidden lg:inline text-xs text-slate-400 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full font-semibold">
-                    Ref: HLHOF77964
-                </span>
-                <button onclick="navRegister()" class="text-[11px] sm:text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-full font-bold transition-all shadow-md shadow-purple-900/20 active:scale-95">
-                    Inscribirse
-                </button>
-                <a href="https://wa.me/51995500589?text=Hola!%20Necesito%20ayuda%20con%20la%20plataforma%20de%20streaming." target="_blank" class="text-[11px] sm:text-xs bg-slate-900 border border-slate-800 text-slate-300 px-2.5 py-1.5 rounded-full font-bold hover:bg-slate-800 transition-all flex items-center gap-1">
-                    <i class="fas fa-headset text-purple-400"></i> <span class="hidden sm:inline">Soporte</span>
+                <button onclick="navRegister()" class="text-[11px] sm:text-xs bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-full font-bold transition-all shadow-md active:scale-95">Inscribirse</button>
+                <a href="https://wa.me/51995500589" target="_blank" class="text-[11px] sm:text-xs bg-slate-900 border border-slate-800 text-slate-300 px-2.5 py-1.5 rounded-full font-bold flex items-center gap-1">
+                    <i class="fas fa-headset text-purple-400"></i> <span>Soporte</span>
                 </a>
-                
-                <a href="login.html" class="text-[11px] sm:text-xs bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white px-3 py-1.5 rounded-full font-bold transition-all shadow-md shadow-red-900/20 active:scale-95 flex items-center gap-1">
-                    <i class="fas fa-sign-in-alt"></i> <span class="hidden sm:inline">COBY ENTRA</span>
-                    <span class="inline sm:hidden">COBY</span>
+                <a href="login.html" class="text-[11px] sm:text-xs bg-gradient-to-r from-red-600 to-rose-600 text-white px-3 py-1.5 rounded-full font-bold flex items-center gap-1">
+                    <i class="fas fa-sign-in-alt"></i> <span>COBY ENTRA</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- HERO SECTION CENTRAL -->
     <header class="max-w-4xl mx-auto text-center px-4 pt-12 pb-12 relative">
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-purple-600/5 rounded-full blur-3xl pointer-events-none"></div>
-        
         <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white leading-tight">
             Cuentas Premium de Streaming <br>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-blue-500">
-                Al Alcance de Todos
-            </span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-purple-400 to-blue-500">Al Alcance de Todos</span>
         </h1>
-        
-        <p class="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-medium">
-            Ahorra en entretenimiento o monta tu propio negocio digital hoy mismo. Visualiza el video para habilitar tus accesos.
-        </p>
+        <p class="mt-4 text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-medium">Ahorra en entretenimiento o monta tu propio negocio digital hoy mismo.</p>
 
-        <div class="mt-10 max-w-2xl mx-auto bg-slate-900 border border-red-500/40 p-3 sm:p-4 rounded-3xl shadow-2xl shadow-red-950/20 relative">
-            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-amber-500 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 whitespace-nowrap">
+        <div class="mt-10 max-w-2xl mx-auto bg-slate-900 border border-red-500/40 p-3 sm:p-4 rounded-3xl shadow-2xl relative">
+            <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-amber-500 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg z-10 flex items-center gap-1.5">
                 <i class="fas fa-lock-open animate-pulse"></i> PASO 1: MIRA ESTE VIDEO INFORMATIVO
             </div>
 
             <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-slate-800">
                 <video id="mainVideo" class="absolute top-0 left-0 w-full h-full object-contain bg-black" controls playsinline preload="metadata">
                     <source src="video_principal.mp4" type="video/mp4">
-                    Tu navegador no soporta la reproducción de video.
                 </video>
             </div>
 
             <div class="mt-4">
-                <button onclick="unlockHub()" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm sm:text-base font-black text-slate-950 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-xl hover:brightness-105 transform active:scale-95 transition-all uppercase tracking-wider animate-pulse">
+                <button onclick="mostrarMensajeFidelizacion3Pasos()" class="w-full inline-flex items-center justify-center px-6 py-4 text-sm sm:text-base font-black text-slate-950 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-xl shadow-xl hover:brightness-105 transform active:scale-95 transition-all uppercase tracking-wider animate-pulse">
                     <i class="fas fa-user-plus mr-2 text-lg"></i> He visto el video, ahora quiero inscribirme
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- SECCIÓN DESBLOQUEADA DE OPCIONES -->
     <div id="unlockedHubContent" class="hidden fade-in-section">
         <section id="optionsPanel" class="max-w-6xl mx-auto px-4 py-8 scroll-mt-20">
             <div class="text-center mb-10">
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-950/50 text-purple-400 text-xs font-bold border border-purple-800 mb-3">
-                    <i class="fas fa-check-circle"></i> MENÚ DE ACCESO DESBLOQUEADO
-                </div>
                 <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">¿Qué deseas hacer el día de hoy?</h2>
-                <p class="text-slate-400 text-xs sm:text-sm mt-1">Selecciona una de las 4 opciones estratégicas.</p>
             </div>
 
-            <!-- Grid de las 4 Opciones -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-                <!-- Opcion 1 -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-red-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-red-950/50 text-red-400 rounded-xl flex items-center justify-center text-lg border border-red-900/30 mb-3 group-hover:scale-105 transition-transform">
-                            <i class="fas fa-credit-card"></i>
-                        </div>
+                        <div class="w-11 h-11 bg-red-950/50 text-red-400 rounded-xl flex items-center justify-center text-lg border border-red-900/30 mb-3"><i class="fas fa-credit-card"></i></div>
                         <h3 class="text-base font-bold text-white">1. Realizar Pago</h3>
                         <p class="text-xs text-slate-400 mt-2">Abona tu membresía de S/. 5.00 mediante Yape, Plin o PayPal.</p>
                     </div>
-                    <div class="mt-5">
-                        <button onclick="revealSection('checkoutSocios')" class="w-full text-center text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 hover:opacity-90 text-white py-2.5 rounded-xl transition-all uppercase tracking-wider">
-                            Pagar Membresía <i class="fas fa-wallet ml-1"></i>
-                        </button>
-                    </div>
+                    <button onclick="revealSection('checkoutSocios')" class="mt-5 w-full text-center text-xs font-black bg-gradient-to-r from-red-600 to-rose-600 text-white py-2.5 rounded-xl uppercase">Pagar Membresía</button>
                 </div>
-                <!-- Opcion 2 -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-purple-950/50 text-purple-400 rounded-xl flex items-center justify-center text-lg border border-purple-900/30 mb-3 group-hover:scale-105 transition-transform">
-                            <i class="fas fa-user-plus"></i>
-                        </div>
+                        <div class="w-11 h-11 bg-purple-950/50 text-purple-400 rounded-xl flex items-center justify-center text-lg border border-purple-900/30 mb-3"><i class="fas fa-user-plus"></i></div>
                         <h3 class="text-base font-bold text-white">2. Registrarme</h3>
-                        <p class="text-xs text-slate-400 mt-2">Completa tu formulario oficial de alta en la plataforma.</p>
+                        <p class="text-xs text-slate-400 mt-2">Completa tu formulario oficial de alta con tus datos.</p>
                     </div>
-                    <div class="mt-5">
-                        <button onclick="revealSection('registroUsuario')" class="w-full text-center text-xs font-black bg-purple-600 hover:bg-purple-500 text-white py-2.5 rounded-xl transition-all uppercase tracking-wider">
-                            Crear mi Perfil <i class="fas fa-id-card ml-1"></i>
-                        </button>
-                    </div>
+                    <button onclick="revealSection('registroUsuario')" class="mt-5 w-full text-center text-xs font-black bg-purple-600 text-white py-2.5 rounded-xl uppercase">Crear mi Perfil</button>
                 </div>
-                <!-- Opcion 3 -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-emerald-950/50 text-emerald-400 rounded-xl flex items-center justify-center text-lg border border-emerald-900/30 mb-3 group-hover:scale-105 transition-transform">
-                            <i class="fas fa-shopping-bag"></i>
-                        </div>
+                        <div class="w-11 h-11 bg-emerald-950/50 text-emerald-400 rounded-xl flex items-center justify-center text-lg border border-emerald-900/30 mb-3"><i class="fas fa-shopping-bag"></i></div>
                         <h3 class="text-base font-bold text-white">3. Comprar para Mí</h3>
-                        <p class="text-xs text-slate-400 mt-2">Despliega el catálogo de precios minoristas sin suscripciones.</p>
+                        <p class="text-xs text-slate-400 mt-2">Despliega el catálogo de precios minoristas.</p>
                     </div>
-                    <div class="mt-5">
-                        <button onclick="revealSection('catalogoProductos')" class="w-full text-center text-xs font-black bg-emerald-600 hover:bg-emerald-500 text-slate-950 py-2.5 rounded-xl transition-all uppercase tracking-wider">
-                            Ver Catálogo Apps <i class="fas fa-film ml-1"></i>
-                        </button>
-                    </div>
+                    <button onclick="revealSection('catalogoProductos')" class="mt-5 w-full text-center text-xs font-black bg-emerald-600 text-slate-950 py-2.5 rounded-xl uppercase">Ver Catálogo</button>
                 </div>
-                <!-- Opcion 4 -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
-                        <div class="w-11 h-11 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-lg border border-indigo-900/30 mb-3 group-hover:scale-105 transition-transform">
-                            <i class="fas fa-headset"></i>
-                        </div>
+                        <div class="w-11 h-11 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-lg border border-indigo-900/30 mb-3"><i class="fas fa-headset"></i></div>
                         <h3 class="text-base font-bold text-white">4. Soporte Técnico</h3>
-                        <p class="text-xs text-slate-400 mt-2">Resuelve dudas sobre recargas o activaciones.</p>
+                        <p class="text-xs text-slate-400 mt-2">Asistencia técnica personalizada directa.</p>
                     </div>
-                    <div class="mt-5">
-                        <button onclick="revealSection('centroSoporte')" class="w-full text-center text-xs font-black bg-indigo-600 hover:bg-indigo-500 text-white py-2.5 rounded-xl transition-all uppercase tracking-wider">
-                            Abrir Soporte <i class="fas fa-tools ml-1"></i>
-                        </button>
-                    </div>
+                    <button onclick="revealSection('centroSoporte')" class="mt-5 w-full text-center text-xs font-black bg-indigo-600 text-white py-2.5 rounded-xl uppercase">Abrir Soporte</button>
                 </div>
             </div>
 
-            <!-- SECCIÓN 1: FORMULARIO DE PAGO PARA SOCIOS (CON CONVERSIÓN EN VIVO A DÓLARES) -->
             <div id="checkoutSocios" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/30 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 fade-in-section">
                 <div class="text-center">
-                    <span class="text-[10px] font-black bg-red-950 text-red-400 border border-red-900/50 px-2.5 py-1 rounded-md uppercase tracking-wider">
-                        Pago Único - Promoción Limitada
-                    </span>
+                    <span class="text-[10px] font-black bg-red-950 text-red-400 border border-red-900/50 px-2.5 py-1 rounded-md uppercase">Pago Único - Promoción Limitada</span>
                     <h3 class="text-xl sm:text-2xl font-black text-white mt-4">Formulario de Alta para Socios</h3>
-                    <p class="text-xs text-slate-400 mt-1 max-w-md mx-auto">
-                        Inscríbete hoy. Los accesos directos a distribuidores estables cuestan mucho más; aprovecha la tasa preferencial.
-                    </p>
                 </div>
-
-                <!-- CONTENEDOR DE PRECIO CON CAMBIO AUTOMÁTICO EN PERÚ -->
                 <div class="my-6 py-4 bg-slate-950/80 rounded-2xl border border-slate-800 flex flex-col justify-center items-center gap-1">
-                    <span class="text-[11px] text-slate-500 line-through">Precio Oficial: S/. 30.00</span>
                     <div class="flex items-center justify-center gap-2.5 flex-wrap">
-                        <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider">Precio Especial:</span>
-                        <span class="text-3xl font-black text-emerald-400 tracking-tight">S/. 5.00</span>
-                        
-                        <!-- Bloque Dinámico de Conversión a Dólares para PayPal -->
+                        <span class="text-xs text-emerald-400 font-bold uppercase">Precio Especial:</span>
+                        <span class="text-3xl font-black text-emerald-400">S/. 5.00</span>
                         <span class="text-slate-500 text-xl font-bold">/</span>
-                        <span id="paypalRateContainer" class="inline-flex items-center gap-1.5 bg-blue-950/60 border border-blue-500/30 px-3 py-1 rounded-xl text-sm font-black text-blue-400 shadow-md">
-                            <i class="fab fa-paypal text-blue-500 animate-pulse text-xs"></i> 
-                            <span id="paypalUsdLabel">Cargando...</span>
+                        <span class="inline-flex items-center gap-1.5 bg-blue-950/60 border border-blue-500/30 px-3 py-1 rounded-xl text-sm font-black text-blue-400">
+                            <i class="fab fa-paypal text-blue-500 text-xs"></i> <span id="paypalUsdLabel">Cargando...</span>
                         </span>
                     </div>
                 </div>
-
-                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 mb-6 text-left">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">
-                        <i class="fas fa-wallet text-purple-400 mr-1"></i> Datos de depósito inmediato:
-                    </p>
-                    <div class="space-y-2.5 text-sm">
-                        <div class="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span class="text-slate-400">Métodos de depósito:</span>
-                            <span class="font-bold text-white text-xs bg-purple-950/50 border border-purple-800 px-2 py-0.5 rounded">YAPE / PLIN / PAYPAL</span>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span class="text-slate-400">Número de celular (Yape/Plin):</span>
-                            <span class="font-mono font-black text-yellow-400 tracking-wider text-base">995500589</span>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span class="text-slate-400">Pagar con PayPal (Haz clic):</span>
-                            <a href="https://www.paypal.com/paypalme/app2026" target="_blank" class="font-mono font-black text-blue-400 hover:text-blue-300 underline tracking-wider text-sm flex items-center gap-1.5">
-                                <i class="fab fa-paypal text-blue-500"></i> paypal.me/app2026
-                            </a>
-                        </div>
-                        <div class="flex justify-between border-b border-slate-900 pb-1.5">
-                            <span class="text-slate-400">Nombre de destino:</span>
-                            <span class="font-mono font-black text-yellow-400 tracking-wider text-base">Armando Viv</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-slate-400">Código Promocional:</span>
-                            <span class="font-mono font-bold bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-xs">HLHOF77964</span>
-                        </div>
-                    </div>
+                <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 mb-6 text-sm text-left space-y-2">
+                    <p class="text-slate-400">Número Yape/Plin: <span class="text-yellow-400 font-black">995500589</span></p>
+                    <p class="text-slate-400">PayPal: <a href="https://www.paypal.com/paypalme/app2026" target="_blank" class="text-blue-400 underline font-bold">paypal.me/app2026</a></p>
+                    <p class="text-slate-400">Titular: <span class="text-white font-bold">Armando Viv</span></p>
                 </div>
-
-                <div class="p-3 bg-amber-950/30 border border-amber-500/20 rounded-xl mb-6 text-xs text-amber-300 leading-relaxed text-left flex gap-2">
-                    <i class="fas fa-info-circle text-amber-400 mt-0.5 shrink-0"></i>
-                    <span>Efectúa la transferencia a través de Yape, Plin o haciendo clic en el enlace de PayPal, tómale una captura de pantalla y presiona el botón inferior para enviármela. Te daré de alta en minutos.</span>
-                </div>
-
-                <a href="https://wa.me/51995500589?text=Hola!%20Acabo%20de%20ver%20el%20video%20y%20quiero%20registrarme%20como%20Socio.%20Adjunto%20mi%20comprobante%20de%20pago%20de%20S/.%205.00%20pesos%20(o%20PayPal).%20Mi%20c%C3%B3digo%20de%20referido%20es%20HLHOF77964." 
-                   target="_blank" 
-                   class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-white brand-gradient rounded-xl shadow-xl hover:opacity-95 transform active:scale-95 transition-all uppercase tracking-wider text-sm shadow-purple-900/20">
+                <a href="https://wa.me/51995500589?text=Hola!%20Acabo%20de%20ver%20el%20video%20y%20quiero%20registrarme%20como%20Socio.%20Adjunto%20mi%20comprobante." target="_blank" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-white brand-gradient rounded-xl uppercase text-sm shadow-xl">
                     <i class="fab fa-whatsapp mr-2 text-lg"></i> Enviar Comprobante de Registro
                 </a>
             </div>
 
-            <!-- SECCIÓN 2: PORTAL DE REGISTRO CON TEXTO DE ADVERTENCIA EXPLICADO -->
             <div id="registroUsuario" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/40 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 text-center fade-in-section">
-                <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
-                <div class="w-14 h-14 bg-amber-950/60 text-amber-400 border border-amber-800/40 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg">
-                    <i class="fas fa-circle-exclamation animate-pulse"></i>
-                </div>
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-black rounded-md uppercase tracking-wider mb-4">
-                    <i class="fas fa-key"></i> Código de Activación: HLHOF77964
-                </div>
                 <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Portal de Registro Externo Seguro</h3>
-                <div class="my-4 p-4 bg-slate-950 rounded-xl border border-slate-800 max-w-lg mx-auto text-center">
-                    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-semibold">
-                        📢 <span class="text-yellow-400 font-bold">Este código debes pegar en donde dice código de tu referido de manera obligatoria y ¡llévate grandes sorpresas!</span>
-                    </p>
+                <div class="my-4 p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs sm:text-sm text-yellow-400 font-bold">
+                    📢 Este código debes pegar en donde dice código de tu referido de manera obligatoria y ¡llévate grandes sorpresas!
                 </div>
-                <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-                    Al presionar el botón de abajo, el sistema copiará el código automáticamente en tu portapapeles y te llevará al formulario oficial externo.
-                </p>
-                <div class="my-6 grid grid-cols-3 gap-3 text-left">
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-900">
-                        <span class="text-purple-400 font-bold text-xs block">Paso 1</span>
-                        <span class="text-[11px] text-slate-400">Haz clic abajo para copiar el código.</span>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-900">
-                        <span class="text-purple-400 font-bold text-xs block">Paso 2</span>
-                        <span class="text-[11px] text-slate-400">Se abre el portal seguro de Zodiak.</span>
-                    </div>
-                    <div class="bg-slate-950 p-3 rounded-xl border border-slate-900">
-                        <span class="text-purple-400 font-bold text-xs block">Paso 3</span>
-                        <span class="text-[11px] text-slate-400">Pega el código copiado y regístrate.</span>
-                    </div>
-                </div>
-                <div class="space-y-3">
-                    <button onclick="ejecutarAccionRegistro()" 
-                            class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-slate-950 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 rounded-xl shadow-xl shadow-amber-950/20 hover:brightness-110 transform active:scale-95 transition-all uppercase tracking-wider text-sm font-sans">
-                        <i class="fas fa-copy mr-2 text-base"></i> Copiar Código y Abrir Portal Zodiak
-                    </button>
-                </div>
+                <button onclick="ejecutarAccionRegistro()" class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-slate-950 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 rounded-xl uppercase tracking-wider text-sm font-sans">
+                    <i class="fas fa-copy mr-2 text-base"></i> Copiar Código y Abrir Portal Zodiak
+                </button>
             </div>
 
-            <!-- SECCIÓN 3: CATÁLOGO DE APLICACIONES -->
             <div id="catalogoProductos" class="hidden fade-in-section mb-16">
-                <!-- Se mantiene el mismo catálogo intacto -->
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Nuestras Aplicaciones Disponibles</h2>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Netflix -->
-                    <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-red-600/50 transition-all duration-300 relative group overflow-hidden">
-                        <div class="absolute top-0 left-0 w-1.5 h-full bg-red-600"></div>
-                        <h3 class="text-lg font-bold text-white">Netflix Premium</h3>
-                        <div class="mt-4 pt-4 border-t border-slate-800 flex items-baseline justify-between">
-                            <span class="text-lg font-black text-emerald-400">S/. 15.00</span>
-                            <a href="https://wa.me/51995500589" target="_blank" class="text-xs font-bold bg-emerald-600 text-slate-950 px-3 py-2 rounded-lg">Pedir</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- SECCIÓN 4: CENTRO DE SOPORTE INTERACTIVO -->
-            <div id="centroSoporte" class="hidden max-w-4xl mx-auto bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl mb-16 fade-in-section">
-                <!-- Soporte intacto -->
-            </div>
+            <div id="centroSoporte" class="hidden fade-in-section mb-16">
+                </div>
         </section>
     </div>
 
-    <!-- LÓGICA JAVASCRIPT COMPLETAMENTE INTEGRADA -->
     <script>
-        // FUNCIÓN NUEVA: Conversor Automático de Tipo de Cambio PEN a USD para PayPal
+        // LÓGICA DE TRABAJO EN EMBUDO DE 10 SEGUNDOS (SOLICITADO)
+        function mostrarMensajeFidelizacion3Pasos() {
+            const modal = document.getElementById('funnelStepsModal');
+            
+            // Hacer visible el modal con la cronología de pasos
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100', 'opacity-100');
+
+            // Después de cumplirse los 10 segundos exactos (10000ms), se autoejecuta el unlock del Hub
+            setTimeout(() => {
+                // Cerrar modal
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.querySelector('div').classList.add('scale-95');
+                
+                // Desbloquear opciones principales y scroll automático abajo
+                unlockHub();
+            }, 10000);
+        }
+
+        // Lógica de conversión de cambio de moneda (Soles a Dólares)
         function iniciarCambioMonedaPeru() {
             const solesMonto = 5.00;
-            let tasaRespaldo = 3.40; // Tasa base preventiva del mercado peruano en 2026
-
+            let tasaRespaldo = 3.40;
             fetch('https://open.er-api.com/v6/latest/USD')
                 .then(res => res.json())
                 .then(data => {
-                    // Validar si la API retornó la tasa oficial de Soles Peruanos (PEN)
-                    if (data && data.rates && data.rates.PEN) {
-                        tasaRespaldo = data.rates.PEN;
-                    }
-                    inyectarPrecioDolares(solesMonto, tasaRespaldo);
+                    if (data && data.rates && data.rates.PEN) { tasaRespaldo = data.rates.PEN; }
+                    document.getElementById('paypalUsdLabel').innerText = `$${(solesMonto / tasaRespaldo).toFixed(2)} USD`;
                 })
-                .catch(err => {
-                    console.warn("API de tipo de cambio inaccesible. Usando tasa predictiva de respaldo (3.40):", err);
-                    inyectarPrecioDolares(solesMonto, tasaRespaldo);
+                .catch(() => {
+                    document.getElementById('paypalUsdLabel').innerText = `$${(solesMonto / tasaRespaldo).toFixed(2)} USD`;
                 });
         }
-
-        function inyectarPrecioDolares(soles, tasa) {
-            const calculoDolares = (soles / tasa).toFixed(2);
-            const wrapper = document.getElementById('paypalUsdLabel');
-            if (wrapper) {
-                wrapper.innerText = `$${calculoDolares} USD`;
-            }
-        }
-
-        // Ejecutar la conversión inmediatamente al cargar el documento
         document.addEventListener('DOMContentLoaded', iniciarCambioMonedaPeru);
 
-        // Control del Modal Flotante de Bienvenida
         function startExperience() {
-            const welcomeModal = document.getElementById('welcomeModal');
-            const video = document.getElementById('mainVideo');
-            welcomeModal.classList.add('opacity-0');
+            document.getElementById('welcomeModal').classList.add('opacity-0');
             setTimeout(() => {
-                welcomeModal.style.display = 'none';
-                if (video) {
-                    video.muted = false; 
-                    video.play().catch(e => console.log("Auto-play bloqueado:", e));
-                }
+                document.getElementById('welcomeModal').style.display = 'none';
+                document.getElementById('mainVideo').muted = false;
+                document.getElementById('mainVideo').play().catch(e => console.log(e));
             }, 500);
         }
 
-        // Desbloquea el Panel de Opciones completo
         function unlockHub() {
             const hiddenHub = document.getElementById('unlockedHubContent');
             hiddenHub.classList.remove('hidden');
@@ -467,39 +347,24 @@
                     }, 50);
                 } else {
                     secElement.classList.add('hidden');
-                    secElement.classList.remove('show');
                 }
             });
         }
 
-        // Copia código, despliega Alerta Modal Centralizada y redirige
         function ejecutarAccionRegistro() {
             const codigoReferido = "HLHOF77964";
-            const urlDestino = "https://zodiak.pe/registrar?ref=" + codigoReferido;
-
             navigator.clipboard.writeText(codigoReferido).then(() => {
                 const toast = document.getElementById('toastNotification');
                 toast.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
                 toast.classList.add('opacity-100', 'scale-100');
-
                 setTimeout(() => {
                     toast.classList.remove('opacity-100', 'scale-100');
                     toast.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-                    window.open(urlDestino, '_blank');
+                    window.open("https://zodiak.pe/registrar?ref=" + codigoReferido, '_blank');
                 }, 3500);
-            }).catch(err => {
-                window.open(urlDestino, '_blank');
+            }).catch(() => {
+                window.open("https://zodiak.pe/registrar?ref=" + codigoReferido, '_blank');
             });
-        }
-
-        function toggleElement(id) {
-            const element = document.getElementById(id);
-            if (element.classList.contains('hidden')) {
-                element.classList.remove('hidden');
-                setTimeout(() => { element.scrollIntoView({ behavior: 'smooth' }); }, 50);
-            } else {
-                element.classList.add('hidden');
-            }
         }
     </script>
 </body>
