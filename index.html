@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multistreaming Perú | Centro de Activación Digital</title>
+    <!-- Tailwind CSS para diseño moderno y rápido -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos profesionales FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .glow-effect {
@@ -34,21 +36,33 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased selection:bg-purple-600 selection:text-white pb-24 sm:pb-0">
 
-    <div id="toastNotification" class="fixed top-6 right-6 bg-slate-900/95 backdrop-blur-md border-2 border-yellow-500/60 p-4 rounded-2xl shadow-2xl z-50 transform translate-x-20 opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-3.5 max-w-sm">
-        <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-xl flex items-center justify-center text-xl shrink-0 border border-yellow-500/30">
+    <!-- MENSAJE FLOTANTE CENTRAL DE ALTA PRIORIDAD (CORREGIDO AL CENTRO DE LA PÁGINA) -->
+    <div id="toastNotification" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-900/98 backdrop-blur-lg border-2 border-yellow-500 p-6 sm:p-8 rounded-3xl shadow-2xl shadow-black/80 z-50 opacity-0 scale-95 pointer-events-none transition-all duration-300 flex flex-col items-center text-center max-w-md w-[92%]">
+        <div class="w-16 h-16 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center text-3xl shrink-0 border border-yellow-500/30 mb-4 shadow-lg shadow-yellow-500/5">
             <i class="fas fa-gift animate-bounce"></i>
         </div>
         <div>
-            <p class="text-xs font-black text-white uppercase tracking-wider flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ¡Código Copiado!
+            <p class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center justify-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> ¡CÓDIGO COPIADO CON ÉXITO!
             </p>
-            <p class="text-sm text-yellow-400 font-mono font-black mt-0.5 tracking-widest">HLHOF77964</p>
-            <p class="text-[11px] text-slate-200 mt-1.5 leading-snug font-medium">
-                ⚠️ Este código debes pegar en donde dice <span class="text-yellow-400 font-bold">código de tu referido</span> de manera obligatoria y ¡llévate grandes sorpresas!
+            
+            <!-- Visualizador Premium del Código -->
+            <div class="my-3 bg-slate-950/90 px-5 py-2 rounded-xl border border-slate-800/80 inline-block shadow-inner">
+                <p class="text-xl text-yellow-400 font-mono font-black tracking-widest">HLHOF77964</p>
+            </div>
+            
+            <!-- Tu mensaje e instrucción imperativa exacta -->
+            <p class="text-sm sm:text-base text-slate-100 mt-2 leading-relaxed font-bold max-w-xs mx-auto">
+                ⚠️ Este código debes pegar en donde dice <span class="text-yellow-400 underline decoration-2 font-black">código de tu referido</span> de manera obligatoria y ¡llévate grandes sorpresas!
             </p>
+            
+            <div class="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-center gap-2 text-[11px] text-slate-400 font-medium">
+                <i class="fas fa-circle-notch animate-spin text-purple-500"></i> Abriendo portal externo seguro...
+            </div>
         </div>
     </div>
 
+    <!-- BIENVENIDA FLOTANTE DE INICIO (OVERLAY DE ENTRADA) -->
     <div id="welcomeModal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md z-50 flex items-center justify-center p-4 transition-opacity duration-500">
         <div class="bg-slate-900 border border-purple-500/30 p-6 sm:p-8 rounded-3xl max-w-md w-full text-center relative overflow-hidden shadow-2xl shadow-purple-950/20 transform scale-100 transition-transform duration-500">
             <div class="absolute -top-12 -left-12 w-32 h-32 bg-red-500/10 rounded-full blur-2xl"></div>
@@ -63,7 +77,7 @@
             </h2>
             
             <p class="text-sm text-slate-300 mt-4 leading-relaxed">
-                Estás a un paso de accessing al mejor ecosistema de **cuentas premium** de streaming en el Perú. 
+                Estás a un paso de acceder al mejor ecosistema de **cuentas premium** de streaming en el Perú. 
             </p>
 
             <div class="my-5 p-4 bg-purple-950/40 border border-purple-500/20 rounded-xl">
@@ -82,6 +96,7 @@
         </div>
     </div>
 
+    <!-- MENSAJE FLOTANTE EN PARTE INFERIOR IZQUIERDA (CÓDIGO DE REFERIDO) -->
     <div class="fixed bottom-6 left-6 bg-slate-900/90 backdrop-blur-md border border-yellow-500/40 p-3 rounded-xl shadow-2xl z-40 flex items-center gap-3 animate-float-custom max-w-[280px] sm:max-w-xs">
         <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-lg flex items-center justify-center text-lg shrink-0 border border-yellow-500/20">
             <i class="fas fa-gift animate-pulse"></i>
@@ -93,6 +108,7 @@
         </div>
     </div>
 
+    <!-- BOTÓN FLOTANTE DE WHATSAPP (DERECHA) -->
     <a href="https://wa.me/51995500589?text=Hola!%20Vengo%20de%20tu%20p%C3%A1gina%20web%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n." 
        target="_blank" 
        class="fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl hover:bg-emerald-600 hover:scale-110 transform transition-all z-40 animate-bounce"
@@ -100,6 +116,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- Barra de Navegación Superior -->
     <nav class="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -128,6 +145,7 @@
         </div>
     </nav>
 
+    <!-- HERO SECTION CENTRAL CON EL VIDEO -->
     <header class="max-w-4xl mx-auto text-center px-4 pt-12 pb-12 relative">
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-purple-600/5 rounded-full blur-3xl pointer-events-none"></div>
         
@@ -142,6 +160,7 @@
             Ahorra en entretenimiento o monta tu propio negocio digital hoy mismo. Visualiza el video para habilitar tus accesos.
         </p>
 
+        <!-- VIDEO CENTRAL -->
         <div class="mt-10 max-w-2xl mx-auto bg-slate-900 border border-red-500/40 p-3 sm:p-4 rounded-3xl shadow-2xl shadow-red-950/20 relative">
             
             <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-red-600 to-amber-500 text-white text-[10px] sm:text-xs font-black uppercase tracking-widest px-4 py-1 rounded-full shadow-lg flex items-center gap-1.5 z-10 whitespace-nowrap">
@@ -163,8 +182,10 @@
         </div>
     </header>
 
+    <!-- SECCIÓN DESBLOQUEADA DE OPCIONES (FUNNEL INTELIGENTE) -->
     <div id="unlockedHubContent" class="hidden fade-in-section">
         
+        <!-- PANEL CENTRAL DE 4 OPCIONES -->
         <section id="optionsPanel" class="max-w-6xl mx-auto px-4 py-8 scroll-mt-20">
             <div class="text-center mb-10">
                 <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-950/50 text-purple-400 text-xs font-bold border border-purple-800 mb-3">
@@ -174,8 +195,10 @@
                 <p class="text-slate-400 text-xs sm:text-sm mt-1">Selecciona una de las 4 opciones estratégicas para procesar tu solicitud de inmediato.</p>
             </div>
 
+            <!-- Grid Inteligente de las 4 Opciones Corporativas -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
                 
+                <!-- OPCIÓN 1: PAGAR -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-red-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
                         <div class="w-11 h-11 bg-red-950/50 text-red-400 rounded-xl flex items-center justify-center text-lg border border-red-900/30 mb-3 group-hover:scale-105 transition-transform">
@@ -193,6 +216,7 @@
                     </div>
                 </div>
 
+                <!-- OPCIÓN 2: REGISTRARME -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
                         <div class="w-11 h-11 bg-purple-950/50 text-purple-400 rounded-xl flex items-center justify-center text-lg border border-purple-900/30 mb-3 group-hover:scale-105 transition-transform">
@@ -210,6 +234,7 @@
                     </div>
                 </div>
 
+                <!-- OPCIÓN 3: COMPRAR PARA MÍ -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
                         <div class="w-11 h-11 bg-emerald-950/50 text-emerald-400 rounded-xl flex items-center justify-center text-lg border border-emerald-900/30 mb-3 group-hover:scale-105 transition-transform">
@@ -227,6 +252,7 @@
                     </div>
                 </div>
 
+                <!-- OPCIÓN 4: SOPORTE -->
                 <div class="bg-slate-900/60 border border-slate-800 rounded-2xl p-5 flex flex-col justify-between hover:border-indigo-500/50 hover:-translate-y-1 transition-all duration-300 shadow-xl group">
                     <div>
                         <div class="w-11 h-11 bg-indigo-950/50 text-indigo-400 rounded-xl flex items-center justify-center text-lg border border-indigo-900/30 mb-3 group-hover:scale-105 transition-transform">
@@ -246,6 +272,7 @@
 
             </div>
 
+            <!-- SECCIÓN 1: FORMULARIO DE PAGO PARA SOCIOS -->
             <div id="checkoutSocios" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/30 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 fade-in-section">
                 <div class="text-center">
                     <span class="text-[10px] font-black bg-red-950 text-red-400 border border-red-900/50 px-2.5 py-1 rounded-md uppercase tracking-wider">
@@ -307,6 +334,7 @@
                 </a>
             </div>
 
+            <!-- SECCIÓN 2: PORTAL DE REGISTRO CON TEXTO DE ADVERTENCIA EXPLICADO (UX MEJORADO) -->
             <div id="registroUsuario" class="hidden max-w-2xl mx-auto bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-purple-500/40 p-6 sm:p-10 rounded-3xl shadow-2xl relative mb-16 text-center fade-in-section">
                 <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 bg-purple-600/10 rounded-full blur-xl pointer-events-none"></div>
                 
@@ -315,11 +343,12 @@
                 </div>
 
                 <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 text-[10px] font-black rounded-md uppercase tracking-wider mb-4">
-                    <i class="fas fa-key"></i> Código de Activación: HLHOF77964
+                    <i class="fas fa-key"></i> Código de Activation: HLHOF77964
                 </div>
 
                 <h3 class="text-xl sm:text-2xl font-black text-white tracking-tight">Portal de Registro Externo Seguro</h3>
                 
+                <!-- Mensaje de instrucción obligatoria solicitado -->
                 <div class="my-4 p-4 bg-slate-950 rounded-xl border border-slate-800 max-w-lg mx-auto text-center">
                     <p class="text-xs sm:text-sm text-slate-300 leading-relaxed font-semibold">
                         📢 <span class="text-yellow-400 font-bold">Este código debes pegar en donde dice código de tu referido de manera obligatoria y ¡llévate grandes sorpresas!</span>
@@ -330,6 +359,7 @@
                     Al presionar el botón de abajo, el sistema **copiará el código automáticamente** en tu portapapeles y te llevará al formulario oficial externo para que solo tengas que pegarlo.
                 </p>
 
+                <!-- Tarjeta informativa del proceso encriptado -->
                 <div class="my-6 grid grid-cols-3 gap-3 text-left">
                     <div class="bg-slate-950 p-3 rounded-xl border border-slate-900">
                         <span class="text-purple-400 font-bold text-xs block">Paso 1</span>
@@ -345,6 +375,7 @@
                     </div>
                 </div>
 
+                <!-- Botón Enterprise con función de copiado, mensaje flotante y redirección -->
                 <div class="space-y-3">
                     <button onclick="ejecutarAccionRegistro()" 
                             class="w-full inline-flex items-center justify-center px-6 py-4 font-black text-slate-950 bg-gradient-to-r from-yellow-400 via-amber-400 to-amber-500 rounded-xl shadow-xl shadow-amber-950/20 hover:brightness-110 transform active:scale-95 transition-all uppercase tracking-wider text-sm font-sans">
@@ -356,13 +387,16 @@
                 </div>
             </div>
 
+            <!-- SECCIÓN 3: CATÁLOGO DE APLICACIONES -->
             <div id="catalogoProductos" class="hidden fade-in-section mb-16">
                 <div class="text-center mb-8">
                     <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Nuestras Aplicaciones Disponibles</h2>
                     <p class="text-slate-400 text-xs sm:text-sm mt-1">Cuentas estables con garantía total. Haz clic en "Pedir" para solicitar tu acceso inmediato.</p>
                 </div>
 
+                <!-- Grid de las 8 Aplicaciones -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- App 1: Netflix -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-red-600/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-red-600"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -383,6 +417,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 2: Disney+ -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-blue-500/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -403,6 +438,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 3: Max -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-indigo-500/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-indigo-500"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -423,6 +459,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 4: Prime Video -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-cyan-400/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-cyan-400"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -443,6 +480,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 5: Crunchyroll -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-orange-500/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-orange-500"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -463,6 +501,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 6: Paramount+ -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-blue-600/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-600"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -483,6 +522,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 7: Spotify Premium -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-emerald-500/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-500"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -503,6 +543,7 @@
                             </a>
                         </div>
                     </div>
+                    <!-- App 8: YouTube Premium -->
                     <div class="bg-slate-900/40 border border-slate-800 rounded-2xl p-5 hover:border-red-500/50 transition-all duration-300 relative group overflow-hidden">
                         <div class="absolute top-0 left-0 w-1.5 h-full bg-red-500"></div>
                         <div class="flex justify-between items-start mb-4">
@@ -526,12 +567,14 @@
                 </div>
             </div>
 
+            <!-- SECCIÓN 4: CENTRO DE SOPORTE INTERACTIVO (CON LOS VIDEOS INDEPENDIENTES) -->
             <div id="centroSoporte" class="hidden max-w-4xl mx-auto bg-slate-900/50 border border-slate-800 p-6 sm:p-8 rounded-3xl mb-16 fade-in-section">
                 <div class="text-center mb-6">
                     <h3 class="text-xl font-black text-white">Centro de Ayuda y Soporte Técnico</h3>
                     <p class="text-xs text-slate-400 mt-1">Elige la modalidad de asistencia que prefieras en este momento:</p>
                 </div>
 
+                <!-- Botones Principales de Soporte -->
                 <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto mb-8">
                     <a href="https://wa.me/51995500589?text=Hola!%20Necesito%20soporte%20técnico%20personalizado%20sobre%20las%20pantallas." 
                        target="_blank" 
@@ -544,11 +587,13 @@
                     </button>
                 </div>
 
+                <!-- BLOQUE DE LOS 3 VIDEOS INDEPENDIENTES -->
                 <div id="guiasVideoBloque" class="hidden border-t border-slate-800/80 pt-6 mt-6">
                     <div class="text-center mb-6">
                         <span class="text-[10px] bg-slate-950 border border-slate-800 text-indigo-400 font-bold px-3 py-1 rounded-full uppercase">Guías Autogestionadas</span>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Video 1 -->
                         <div class="bg-slate-950 border border-slate-900 rounded-2xl p-4 flex flex-col justify-between">
                             <div>
                                 <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-3 border border-slate-800">
@@ -561,6 +606,7 @@
                                 <p class="text-[11px] text-slate-400 mt-1">recargar dinero paso a paso utilizando la interfaz</p>
                             </div>
                         </div>
+                        <!-- Video 2 -->
                         <div class="bg-slate-950 border border-slate-900 rounded-2xl p-4 flex flex-col justify-between">
                             <div>
                                 <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-3 border border-slate-800">
@@ -573,6 +619,7 @@
                                 <p class="text-[11px] text-slate-400 mt-1">Proceso exacto para abonar tu saldo y activar el streaming.</p>
                             </div>
                         </div>
+                        <!-- Video 3 -->
                         <div class="bg-slate-950 border border-slate-900 rounded-2xl p-4 flex flex-col justify-between">
                             <div>
                                 <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-3 border border-slate-800">
@@ -591,6 +638,7 @@
 
         </section>
 
+        <!-- SECCIÓN DE RESEÑAS DE CLIENTES TOTALMENTE AMPLIADA (12 RESEÑAS PREMIUM) -->
         <section class="max-w-6xl mx-auto px-4 py-16 border-t border-slate-900">
             <div class="text-center mb-12">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-500/10 text-yellow-500 text-xs font-semibold border border-yellow-500/20 mb-3">
@@ -601,6 +649,7 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Reseña 1 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -622,6 +671,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 2 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -643,6 +693,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 3 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -652,7 +703,7 @@
                             <span class="text-[9px] font-bold bg-blue-950 border border-blue-900/50 px-2 py-0.5 rounded text-blue-400"><i class="fas fa-check-circle text-[8px]"></i> PayPal Aprobado</span>
                         </div>
                         <p class="text-xs text-slate-300 italic leading-relaxed">
-                            "Lo mejor de todo es la atención. Cuando tuve un problem de inicio de sesión con Max, usé el centro de soporte y me resolvieron el cambio en minutos por WhatsApp. Súper profesionales."
+                            "Lo mejor de todo es la atención. Cuando tuve un problema de inicio de sesión con Max, usé el centro de soporte y me resolvieron el cambio en minutos por WhatsApp. Súper profesionales."
                         </p>
                     </div>
                     <div class="mt-4 pt-4 border-t border-slate-800 flex items-center gap-3">
@@ -664,6 +715,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 4 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -682,6 +734,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 5 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -700,6 +753,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 6 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -718,6 +772,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 7 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -736,6 +791,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 8 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -754,6 +810,7 @@
                     </div>
                 </div>
 
+                <!-- Reseña 9 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between">
                     <div>
                         <div class="flex text-yellow-400 gap-1 mb-3 text-xs">
@@ -772,6 +829,7 @@
                     </div>
                 </div>
 
+                <!-- NUEVA RESEÑA 10 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between hover:border-purple-500/30 transition-colors">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -793,6 +851,7 @@
                     </div>
                 </div>
 
+                <!-- NUEVA RESEÑA 11 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between hover:border-emerald-500/30 transition-colors">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -814,6 +873,7 @@
                     </div>
                 </div>
 
+                <!-- NUEVA RESEÑA 12 -->
                 <div class="bg-slate-900/40 border border-slate-800 p-6 rounded-2xl relative flex flex-col justify-between hover:border-blue-500/30 transition-colors">
                     <div>
                         <div class="flex items-center justify-between mb-3">
@@ -838,11 +898,13 @@
             </div>
         </section>
 
+        <!-- FOOTER FINAL -->
         <footer class="border-t border-slate-900 text-center py-8 text-xs text-slate-600">
             <p>© 2026 StreamZone - Club Informativo de Ahorro Digital.</p>
         </footer>
     </div>
 
+    <!-- LÓGICA JAVASCRIPT -->
     <script>
         // Control del Modal Flotante de Bienvenida
         function startExperience() {
@@ -883,7 +945,7 @@
             revealSection('registroUsuario');
         }
 
-        // Muestra de manera fluida la sección seleccionada principal (Actualizado a 4 secciones)
+        // Muestra de manera fluida la sección seleccionada principal
         function revealSection(idToReveal) {
             const sections = ['checkoutSocios', 'registroUsuario', 'catalogoProductos', 'centroSoporte'];
             
@@ -902,33 +964,31 @@
             });
         }
 
-        // FUNCIÓN PREMIUM: Copia código, despliega Toast flotante e instructivo, y redirige de forma segura
+        // FUNCIÓN PREMIUM: Copia código, despliega Alerta Modal Centralizada y redirige
         function ejecutarAccionRegistro() {
             const codigoReferido = "HLHOF77964";
             const urlDestino = "https://zodiak.pe/registrar?ref=" + codigoReferido;
 
-            // Inyectar copiado nativo
+            // Ejecutar API Clipboard nativa
             navigator.clipboard.writeText(codigoReferido).then(() => {
-                // Seleccionar el Toast Flotante
                 const toast = document.getElementById('toastNotification');
                 
-                // Hacer emerger el Toast removiendo opacidad y traslación
-                toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-x-20');
-                toast.classList.add('opacity-100', 'translate-x-0');
+                // Mostrar en el centro con transiciones suaves de escala y opacidad
+                toast.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+                toast.classList.add('opacity-100', 'scale-100');
 
-                // Aumentado a 3 segundos (3000ms) para que alcancen a leer la advertencia obligatoria perfectamente
+                // Tiempo estratégico extendido a 3.5 segundos (3500ms) para garantizar lectura
                 setTimeout(() => {
-                    // Ocultar Toast fluidamente
-                    toast.classList.remove('opacity-100', 'translate-x-0');
-                    toast.classList.add('opacity-0', 'pointer-events-none', 'translate-x-20');
+                    // Ocultar modal fluidamente
+                    toast.classList.remove('opacity-100', 'scale-100');
+                    toast.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
                     
-                    // Abrir pasarela externa de Zodiak de manera profesional
+                    // Abrir la pasarela segura externa en otra pestaña
                     window.open(urlDestino, '_blank');
-                }, 3000);
+                }, 3500);
 
             }).catch(err => {
-                console.error("Fallo de API Clipboard, redirigiendo de respaldo: ", err);
-                // Respaldo inmediato en navegadores restrictivos
+                console.error("Fallo de API Clipboard, ejecutando contingencia: ", err);
                 window.open(urlDestino, '_blank');
             });
         }
