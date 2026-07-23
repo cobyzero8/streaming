@@ -115,17 +115,28 @@
         let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
         
         if (diasPasados >= 28) {
-            alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
-                <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
-                <div class="flex gap-2">
-                    <a href="https://wa.me/${alq.phone}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
-                        WhatsApp
-                    </a>
-                    <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
-                    <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
-                </div>
-            </div>`;
-        }
+    // Limpiamos el número de celular para evitar errores con espacios o símbolos
+    const telefonoLimpio = alq.phone.replace(/[^0-9]/g, '');
+
+    // Construimos y codificamos el mensaje para WhatsApp
+    const mensajeWhatsApp = encodeURIComponent(
+        `¡Hola ${alq.client_name}! 👋✨\n\n` +
+        `Muchísimas gracias por confiar en CobyStream 🚀. Te escribimos para recordarte que tu servicio de *${alq.app_name}* 🍿🎬 está por vencer.\n\n` +
+        `¿Te gustaría renovarlo para seguir disfrutando sin interrupciones? 💳🔥\n\n` +
+        `¡Quedamos atentos! 🙌`
+    );
+
+    alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
+        <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
+        <div class="flex gap-2">
+            <a href="https://wa.me/${telefonoLimpio}?text=${mensajeWhatsApp}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
+                WhatsApp
+            </a>
+            <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
+            <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
+        </div>
+    </div>`;
+}
 
         tbody.innerHTML += `<tr>
             <td class="px-4 py-3 font-mono text-slate-400 text-sm"># ${alq.order_number}</td>
