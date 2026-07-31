@@ -83,7 +83,22 @@
     let alquileres = [];
 
     function calcularFin() {
-        // Lógica opcional para fechas
+        const startInput = document.getElementById('start_date').value;
+        if (startInput) {
+            // Añadimos 'T00:00:00' para evitar desajustes por la zona horaria local
+            const startDate = new Date(startInput + 'T00:00:00');
+            
+            // Sumamos 30 días a la fecha inicial
+            startDate.setDate(startDate.getDate() + 30);
+            
+            // Extraemos el año, mes y día formateados con ceros a la izquierda si es necesario
+            const year = startDate.getFullYear();
+            const month = String(startDate.getMonth() + 1).padStart(2, '0');
+            const day = String(startDate.getDate()).padStart(2, '0');
+            
+            // Asignamos el valor en formato YYYY-MM-DD al input de end_date
+            document.getElementById('end_date').value = `${year}-${month}-${day}`;
+        }
     }
 
     async function cargar() {
@@ -112,16 +127,16 @@
         if(diasPasados < 0) diasPasados = 0;
         if(diasPasados > 30) { eliminarBase(alq.id, true); return; }
 
-        let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 27 ? 'text-white' : 'text-red-500 animate-pulse');
+        let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 28 ? 'text-white' : 'text-red-500 animate-pulse');
         
-        if (diasPasados >= 28) {
+        if (diasPasados >= 29) {
     // Limpiamos el número de celular para evitar errores con espacios o símbolos
     const telefonoLimpio = alq.phone.replace(/[^0-9]/g, '');
 
     // Construimos y codificamos el mensaje para WhatsApp
     const mensajeWhatsApp = encodeURIComponent(
         `¡Hola ${alq.client_name}! 👋✨\n\n` +
-        `Muchísimas gracias por confiar en CobyStream 🚀. Te escribimos para recordarte que tu servicio de *${alq.app_name}* 🍿🎬 está por vencer.\n\n` +
+        `Muchísimas gracias por confiar en CobyStream 🚀. Te escribimos para recordarte que tu servicio de *${alq.app_name}* 🍿🎬 te queda 01 DIA para vencer.\n\n` +
         `¿Te gustaría renovarlo para seguir disfrutando sin interrupciones? 💳🔥\n\n` +
         `¡Quedamos atentos! 🙌`
     );
