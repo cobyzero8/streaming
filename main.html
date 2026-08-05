@@ -5,11 +5,21 @@
     <title>Panel StreamZone</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-950 text-slate-100 p-6">
 
 <div class="max-w-7xl mx-auto">
-    <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500 mb-8">REGISTRO DE ALQUILER</h1>
+    <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-purple-500">REGISTRO DE ALQUILER</h1>
+        
+        <!-- BOTÓN DE DIFUSIÓN GENERAL -->
+        <button onclick="copiarListaDifusion()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-4 py-2.5 rounded-xl flex items-center gap-2 shadow-lg transition-all text-sm">
+            <i class="fa-brands fa-whatsapp text-lg"></i>
+            Copiar Números para Difusión
+        </button>
+    </div>
     
     <section class="bg-slate-900/60 border border-slate-800 p-6 rounded-2xl mb-10">
         <form id="registroForm" class="grid grid-cols-1 md:grid-cols-4 gap-4">
@@ -27,7 +37,6 @@
                 <option value="IPTV">IPTV</option>
                 <option value="Prime Video">Prime Video</option>
                 <option value="Youtube">Youtube</option>
-            
             </select>
             <input type="text" id="provider" placeholder="Proveedor" required class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
             <input type="date" id="start_date" required onchange="calcularFin()" class="bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm">
@@ -85,88 +94,106 @@
     function calcularFin() {
         const startInput = document.getElementById('start_date').value;
         if (startInput) {
-            // Añadimos 'T00:00:00' para evitar desajustes por la zona horaria local
             const startDate = new Date(startInput + 'T00:00:00');
-            
-            // Sumamos 30 días a la fecha inicial
             startDate.setDate(startDate.getDate() + 30);
-            
-            // Extraemos el año, mes y día formateados con ceros a la izquierda si es necesario
             const year = startDate.getFullYear();
             const month = String(startDate.getMonth() + 1).padStart(2, '0');
             const day = String(startDate.getDate()).padStart(2, '0');
-            
-            // Asignamos el valor en formato YYYY-MM-DD al input de end_date
             document.getElementById('end_date').value = `${year}-${month}-${day}`;
         }
     }
 
     async function cargar() {
-        // Traemos los datos limpios de Supabase
         const { data } = await supabaseClient.from('alquileres').select('*');
         alquileres = data || [];
-        
-        // SOLUCIÓN: Ordenamiento numérico forzado de Mayor a Menor (Descendente) en JavaScript
         alquileres.sort((a, b) => (parseInt(b.order_number) || 0) - (parseInt(a.order_number) || 0));
-        
-        // Calcula el siguiente número basándose de forma segura en el conteo total
         document.getElementById('order_number').value = alquileres.length + 1;
-        
         renderTabla();
     }
 
-   function renderTabla() {
-    const tbody = document.getElementById('tablaCuerpo');
-    const alertas = document.getElementById('alertasContainer');
-    tbody.innerHTML = ''; alertas.innerHTML = '';
-    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    function generarMensajeSoporte(nombreCliente, nombreApp) {
+        return `Estimado/a *${nombreCliente}* 🖐🏼\n\n` +
+               `En *CobyStreaming* nos esforzamos por brindarte la mejor experiencia de entretenimiento en tus plataformas favoritas 📺✨.\n\n` +
+               `Si actualmente estás presentando algún inconveniente con tu servicio de *${nombreApp}*, por favor respóndenos a este mensaje para ayudarte y restablecer el acceso a tu aplicación de inmediato 🛠️⚡.\n\n` +
+               `*CobyStreaming trabaja para darte un buen servicio.* 🍿🤝`;
+    }
 
-    alquileres.forEach(alq => {
-        let fInicio = new Date(alq.start_date + 'T00:00:00');
-        let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
-        if(diasPasados < 0) diasPasados = 0;
-        if(diasPasados > 30) { eliminarBase(alq.id, true); return; }
+    function renderTabla() {
+        const tbody = document.getElementById('tablaCuerpo');
+        const alertas = document.getElementById('alertasContainer');
+        tbody.innerHTML = ''; alertas.innerHTML = '';
+        const hoy = new Date(); hoy.setHours(0,0,0,0);
 
-        let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 28 ? 'text-white' : 'text-red-500 animate-pulse');
+        alquileres.forEach(alq => {
+            let fInicio = new Date(alq.start_date + 'T00:00:00');
+            let diasPasados = Math.floor((hoy - fInicio) / (1000 * 60 * 60 * 24));
+            if(diasPasados < 0) diasPasados = 0;
+            if(diasPasados > 30) { eliminarBase(alq.id, true); return; }
+
+            let color = diasPasados <= 23 ? 'text-green-500' : (diasPasados <= 28 ? 'text-white' : 'text-red-500 animate-pulse');
+            
+            if (diasPasados >= 29) {
+                const telefonoLimpio = alq.phone.replace(/[^0-9]/g, '');
+                const mensajeRenovacion = encodeURIComponent(
+                    `¡Hola ${alq.client_name}! 👋✨\n\n` +
+                    `Muchísimas gracias por confiar en CobyStreaming 🚀. Te escribimos para recordarte que a tu servicio de *${alq.app_name}* 🍿🎬 le queda 01 DÍA para vencer.\n\n` +
+                    `¿Te gustaría renovarlo para seguir disfrutando sin interrupciones? 💳🔥\n\n` +
+                    `¡Quedamos atentos! 🙌`
+                );
+
+                alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
+                    <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
+                    <div class="flex gap-2">
+                        <a href="https://wa.me/${telefonoLimpio}?text=${mensajeRenovacion}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold flex items-center gap-1">
+                            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                        </a>
+                        <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
+                        <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
+                    </div>
+                </div>`;
+            }
+
+            const telefonoLimpio = alq.phone.replace(/[^0-9]/g, '');
+            const mensajeSoporteURLEncoded = encodeURIComponent(generarMensajeSoporte(alq.client_name, alq.app_name));
+
+            tbody.innerHTML += `<tr>
+                <td class="px-4 py-3 font-mono text-slate-400 text-sm"># ${alq.order_number}</td>
+                <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
+                <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
+                <td class="px-4 py-3 text-sm text-slate-300">${alq.provider || 'Sin proveedor'}</td>
+                <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
+                <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
+                <td class="px-4 py-3 text-center">
+                    <div class="flex justify-center items-center gap-3">
+                        <button onclick="abrirModal(${alq.id})" class="text-blue-400 hover:text-blue-300 text-xs font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-pen"></i> Modificar
+                        </button>
+                        <a href="https://wa.me/${telefonoLimpio}?text=${mensajeSoporteURLEncoded}" target="_blank" class="text-emerald-400 hover:text-emerald-300 text-xs font-bold flex items-center gap-1 bg-emerald-950/50 border border-emerald-800 px-2 py-1 rounded-md">
+                            <i class="fa-brands fa-whatsapp"></i> Contactar
+                        </a>
+                        <button onclick="eliminarBase(${alq.id})" class="text-red-500 hover:text-red-400 text-xs font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>`;
+        });
+    }
+
+    function copiarListaDifusion() {
+        if(alquileres.length === 0) {
+            alert('No hay números registrados en la base de datos.');
+            return;
+        }
+        const numeros = alquileres.map(a => a.phone.replace(/[^0-9]/g, '')).filter(p => p.length > 0);
+        const numerosUnicos = [...new Set(numeros)].join('\n');
         
-        if (diasPasados >= 29) {
-    // Limpiamos el número de celular para evitar errores con espacios o símbolos
-    const telefonoLimpio = alq.phone.replace(/[^0-9]/g, '');
-
-    // Construimos y codificamos el mensaje para WhatsApp
-    const mensajeWhatsApp = encodeURIComponent(
-        `¡Hola ${alq.client_name}! 👋✨\n\n` +
-        `Muchísimas gracias por confiar en CobyStream 🚀. Te escribimos para recordarte que tu servicio de *${alq.app_name}* 🍿🎬 te queda 01 DIA para vencer.\n\n` +
-        `¿Te gustaría renovarlo para seguir disfrutando sin interrupciones? 💳🔥\n\n` +
-        `¡Quedamos atentos! 🙌`
-    );
-
-    alertas.innerHTML += `<div class="bg-red-950 p-4 rounded-xl flex justify-between items-center text-white border border-red-500">
-        <span>ES HORA DE PREGUNTAR AL CLIENTE SI VA A RENOVAR: <b>${alq.client_name}</b> | CELULAR: <b>${alq.phone}</b></span>
-        <div class="flex gap-2">
-            <a href="https://wa.me/${telefonoLimpio}?text=${mensajeWhatsApp}" target="_blank" class="bg-green-600 px-3 py-1 rounded text-xs font-bold">
-                WhatsApp
-            </a>
-            <button onclick="renovar(${alq.id})" class="bg-emerald-600 px-3 py-1 rounded text-xs font-bold">Renovará</button>
-            <button onclick="eliminarBase(${alq.id})" class="bg-red-600 px-3 py-1 rounded text-xs font-bold">No renovará</button>
-        </div>
-    </div>`;
-}
-
-        tbody.innerHTML += `<tr>
-            <td class="px-4 py-3 font-mono text-slate-400 text-sm"># ${alq.order_number}</td>
-            <td class="px-4 py-3 font-bold">${alq.client_name}<br><span class="text-[10px] text-slate-500">${alq.phone}</span></td>
-            <td class="px-4 py-3 text-purple-400">${alq.app_name}</td>
-            <td class="px-4 py-3 text-sm text-slate-300">${alq.provider || 'Sin proveedor'}</td>
-            <td class="px-4 py-3 text-[11px]">I: ${alq.start_date}<br>F: ${alq.end_date}</td>
-            <td class="px-4 py-3 font-black ${color}">Día ${diasPasados}</td>
-            <td class="px-4 py-3 text-center">
-                <button onclick="abrirModal(${alq.id})" class="text-blue-400">Modificar</button>
-                <button onclick="eliminarBase(${alq.id})" class="text-red-500 ml-2">Eliminar</button>
-            </td>
-        </tr>`;
-    });
-}
+        navigator.clipboard.writeText(numerosUnicos).then(() => {
+            alert(`Se han copiado ${[...new Set(numeros)].length} números telefónicos al portapapeles. Puedes pegarlos en tu lista de difusión.`);
+        }).catch(err => {
+            alert('Error al copiar números: ' + err);
+        });
+    }
 
     function abrirModal(id) {
         let alq = alquileres.find(a => a.id == id);
